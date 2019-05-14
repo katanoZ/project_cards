@@ -12,5 +12,11 @@ module ProjectCatdsTasks
 
     config.time_zone = 'Asia/Tokyo'
     config.active_record.default_timezone = :local
+
+    config.generators do |g|
+      g.stylesheets false
+      g.javascripts false
+      g.helper false
+    end
   end
 end
