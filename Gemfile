@@ -65,3 +65,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # view template
 gem 'slim-rails'
 gem 'html2slim'
+
+# module bundler
+gem 'webpacker'
+
+# manage applications
+gem 'foreman'
