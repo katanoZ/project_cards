@@ -78,6 +78,12 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+staging:
+  <<: *default
+  database: project_catds_tasks_staging
+  username: project_catds_tasks
+  password: <%= ENV['PROJECT_CATDS_TASKS_DATABASE_PASSWORD'] %>
+
 production:
   <<: *default
   database: project_catds_tasks_production

@@ -18,5 +18,7 @@ module ProjectCatdsTasks
       g.javascripts false
       g.helper false
     end
+
+    config.rack_dev_mark.enable = !Rails.env.production?
   end
 end
