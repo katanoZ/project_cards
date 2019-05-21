@@ -59,11 +59,6 @@ group :test do
   gem 'chromedriver-helper'
 end
 
-group :development, :staging do
-  # show dev mark on development env
-  gem 'rack-dev-mark'
-end
-
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
@@ -76,3 +71,6 @@ gem 'webpacker'
 
 # manage applications
 gem 'foreman'
+
+# show dev mark depending on env
+gem 'rack-dev-mark'
