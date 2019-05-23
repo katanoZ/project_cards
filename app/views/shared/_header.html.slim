@@ -1,0 +1,13 @@
+header.header
+  nav.navbar.navbar-expand-sm.navbar-dark.bg-purple
+    .container
+      button.navbar-toggler type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto.mt-3.mt-sm-0
+          li.nav-item
+            = link_to 'トップ', root_path, class: 'btn btn-outline-light'
+
+        ul.navbar-nav.mt-3.mt-sm-0.ml-0.ml-sm-2
+          li.nav-item
+            = link_to 'ログイン', login_path, class: 'btn btn-outline-light'
