@@ -78,3 +78,9 @@ gem 'foreman'
 
 # show dev mark depending on env
 gem 'rack-dev-mark'
+
+# authentication system
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
