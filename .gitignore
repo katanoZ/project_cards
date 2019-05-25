@@ -39,3 +39,6 @@ yarn-debug.log*
 
 # Ignore master key for decrypting credentials and more.
 /config/master-staging.key
+
+# Ignore master key for decrypting credentials and more.
+/config/master-test.key
