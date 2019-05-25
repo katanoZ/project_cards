@@ -18,6 +18,10 @@ class User < ApplicationRecord
     end
   end
 
+  private
+
+  attr_writer :login_message
+
   def set_find_message
     self.login_message = 'ログインしました'
   end
@@ -25,8 +29,4 @@ class User < ApplicationRecord
   def set_create_message
     self.login_message = 'アカウント登録しました'
   end
-
-  private
-
-  attr_writer :login_message
 end
