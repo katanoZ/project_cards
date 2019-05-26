@@ -1,1 +1,2 @@
-console.log('Hello World from Webpacker')
+import 'bootstrap';
+import '@fortawesome/fontawesome-free/js/all';
