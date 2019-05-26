@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :redirect_not_logged_in_user_to_login_page
+
   def new
   end
 
