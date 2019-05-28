@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  include ImageAttachable
+
+  has_one_attached :image
+
   validates :name, presence: true
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: :provider }
@@ -15,6 +19,7 @@ class User < ApplicationRecord
 
     find_or_create_by(provider: provider, uid: uid) do |user|
       user.name = name
+      user.attach_remote_image!(auth[:info][:image])
     end
   end
 
