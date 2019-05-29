@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
                                  password: ENV.fetch('BASIC_AUTH_PASSWORD')
   end
 
+  helper_method :logged_in?, :current_user
+
   private
 
   def redirect_not_logged_in_user_to_login_page
@@ -14,5 +16,11 @@ class ApplicationController < ActionController::Base
 
   def logged_in?
     session[:user_id].present?
+  end
+
+  def current_user
+    return unless logged_in?
+
+    @current_user ||= User.find(session[:user_id])
   end
 end

@@ -3,4 +3,7 @@ Rails.application.routes.draw do
 
   get 'login', to: 'sessions#new'
   get 'auth/:provider/callback', to: 'sessions#create'
+
+  # マイページ
+  resource :user, path: 'mypage', as: 'mypage', only: %i[show]
 end
