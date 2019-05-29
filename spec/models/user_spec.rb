@@ -10,6 +10,11 @@ RSpec.describe User, type: :model do
     context 'ユーザが存在しない場合' do
       let(:user) { build(:user) }
 
+      before do
+        # #attach_remote_image!を呼び出す
+        expect_any_instance_of(User).to receive(:attach_remote_image!).once
+      end
+
       it '結果が正しいこと' do
         expect { result }.to change { User.count }.from(0).to(1)
       end
@@ -21,6 +26,11 @@ RSpec.describe User, type: :model do
 
     context 'ユーザが存在する場合' do
       let!(:user) { create(:user) }
+
+      before do
+        # #attach_remote_image!を呼び出さない
+        expect_any_instance_of(User).not_to receive(:attach_remote_image!)
+      end
 
       it '結果が正しいこと' do
         expect { result }.not_to change { User.count }
