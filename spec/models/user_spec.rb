@@ -66,4 +66,7 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  # include RemoteImageAttachable
+  it_behaves_like 'remote_image_attachable'
 end
