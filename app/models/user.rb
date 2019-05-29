@@ -9,16 +9,12 @@ class User < ApplicationRecord
 
   attr_reader :login_message
 
-  after_find :set_find_message
-  after_create :set_create_message
-
   def self.find_or_create_from_auth(auth)
     provider = auth[:provider]
     uid = auth[:uid]
-    name = auth[:info][:name]
 
     find_or_create_by(provider: provider, uid: uid) do |user|
-      user.name = name
+      user.name = auth[:info][:name]
       user.attach_remote_image!(auth[:info][:image])
     end
   end
@@ -26,6 +22,9 @@ class User < ApplicationRecord
   private
 
   attr_writer :login_message
+
+  after_find :set_find_message
+  after_create :set_create_message
 
   def set_find_message
     self.login_message = 'ログインしました'
