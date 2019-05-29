@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include ImageAttachable
+  include RemoteImageAttachable
 
   has_one_attached :image
 

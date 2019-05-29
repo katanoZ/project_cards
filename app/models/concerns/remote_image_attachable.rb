@@ -1,6 +1,6 @@
 require 'open-uri'
 
-module ImageAttachable
+module RemoteImageAttachable
   def attach_remote_image!(url)
     OpenURI.open_uri(url) do |file|
       image.attach(
