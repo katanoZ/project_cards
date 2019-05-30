@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include RemoteImageAttachable
+  include RemoteFileAttachable
 
   has_one_attached :image
 
@@ -15,7 +15,7 @@ class User < ApplicationRecord
 
     find_or_create_by(provider: provider, uid: uid) do |user|
       user.name = auth[:info][:name]
-      user.attach_remote_image!(auth[:info][:image])
+      user.attach_remote_file!(auth[:info][:image])
     end
   end
 
@@ -32,5 +32,10 @@ class User < ApplicationRecord
 
   def set_create_message
     self.login_message = 'アカウント登録しました'
+  end
+
+  # include RemoteFileAttachable
+  def attachment_target
+    image
   end
 end
