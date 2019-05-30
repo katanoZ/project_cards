@@ -11,8 +11,8 @@ RSpec.describe User, type: :model do
       let(:user) { build(:user) }
 
       before do
-        # #attach_remote_image!を呼び出す
-        expect_any_instance_of(User).to receive(:attach_remote_image!).once
+        # #attach_remote_file!を呼び出す
+        expect_any_instance_of(User).to receive(:attach_remote_file!).once
       end
 
       it '結果が正しいこと' do
@@ -28,8 +28,8 @@ RSpec.describe User, type: :model do
       let!(:user) { create(:user) }
 
       before do
-        # #attach_remote_image!を呼び出さない
-        expect_any_instance_of(User).not_to receive(:attach_remote_image!)
+        # #attach_remote_file!を呼び出さない
+        expect_any_instance_of(User).not_to receive(:attach_remote_file!)
       end
 
       it '結果が正しいこと' do
@@ -67,6 +67,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  # include RemoteImageAttachable
-  it_behaves_like 'remote_image_attachable'
+  # include RemoteFileAttachable
+  it_behaves_like 'remote_file_attachable'
 end
