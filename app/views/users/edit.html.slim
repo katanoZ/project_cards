@@ -1,0 +1,7 @@
+.row.align-items-center.mt-100px
+  - if @user.image.attached?
+    .col-md-4.ml-auto.text-center.col-lg-3
+      = image_tag @user.image, class: 'size255x255 rounded-circle img-fluid mb-4'
+
+  .col-md-5.mr-auto.col-lg-4.ml-lg-5
+    = render 'users/form', user: @user
