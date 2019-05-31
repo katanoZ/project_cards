@@ -15,8 +15,8 @@ class User < ApplicationRecord
   after_find :set_find_message
   after_create :set_create_message
 
-  # バリデーションが成功して保存する場合のみ、フォームから入力した画像を実際に添付する
-  before_save :attach_new_image
+  # 新しい画像のバリデーションが成功した場合に、更新時に画像添付する
+  before_update :attach_new_image
 
   def self.find_or_create_from_auth(auth)
     provider = auth[:provider]
@@ -37,15 +37,15 @@ class User < ApplicationRecord
 
   attr_writer :login_message
 
-  def attach_new_image
-    image.attach(new_image) if new_image
-  end
-
   def set_find_message
     self.login_message = 'ログインしました'
   end
 
   def set_create_message
     self.login_message = 'アカウント登録しました'
+  end
+
+  def attach_new_image
+    image.attach(new_image) if new_image
   end
 end
