@@ -59,6 +59,38 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#attach_new_image' do
+    let(:user) { create(:user) }
+
+    context 'new_imageが存在する場合' do
+      let(:new_image) { fixture_file_upload('sample.png', 'image/png') }
+
+      after do
+        user.image.purge
+      end
+
+      it '結果が正しいこと' do
+        user.update!(new_image: new_image)
+        expect(user.image.attached?).to be_truthy
+      end
+
+      it '内容が正しいこと' do
+        user.update!(new_image: new_image)
+        expect(user.image.filename).to eq 'sample.png'
+        expect(user.image.content_type).to eq 'image/png'
+      end
+    end
+
+    context 'new_imageが存在しない場合' do
+      let(:new_image) { nil }
+
+      it '結果が正しいこと' do
+        user.update!(new_image: new_image)
+        expect(user.image.attached?).to be_falsey
+      end
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
