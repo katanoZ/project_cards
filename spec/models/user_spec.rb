@@ -42,28 +42,20 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#login_message' do
-    let(:login_user) do
-      User.find_or_create_by(provider: user.provider, uid: user.uid) do |u|
-        u.name = user.name
-      end
+  describe '#set_find_message' do
+    let(:user) { create(:user) }
+    let(:login_user) { User.find(user.id) }
+
+    it '内容が正しいこと' do
+      expect(login_user.login_message).to eq 'ログインしました'
     end
-    subject { login_user.login_message }
+  end
 
-    context '新規ユーザの場合' do
-      let(:user) { build(:user) }
+  describe '#set_create_message' do
+    let(:login_user) { create(:user) }
 
-      it '内容が正しいこと' do
-        is_expected.to eq 'アカウント登録しました'
-      end
-    end
-
-    context '既存ユーザの場合' do
-      let!(:user) { create(:user) }
-
-      it '内容が正しいこと' do
-        is_expected.to eq 'ログインしました'
-      end
+    it '内容が正しいこと' do
+      expect(login_user.login_message).to eq 'アカウント登録しました'
     end
   end
 
