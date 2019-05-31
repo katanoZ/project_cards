@@ -12,6 +12,12 @@ class User < ApplicationRecord
                         file_type: { in: ALLOWED_IMAGE_TYPES },
                         if: :new_image
 
+  after_find :set_find_message
+  after_create :set_create_message
+
+  # バリデーションが成功して保存する場合のみ、フォームから入力した画像を実際に添付する
+  before_save :attach_new_image
+
   def self.find_or_create_from_auth(auth)
     provider = auth[:provider]
     uid = auth[:uid]
@@ -22,15 +28,14 @@ class User < ApplicationRecord
     end
   end
 
+  # include RemoteFileAttachable
+  def attachment_target
+    image
+  end
+
   private
 
   attr_writer :login_message
-
-  # バリデーションが成功して保存する場合のみ、フォームから入力した画像を実際に添付する
-  before_save :attach_new_image
-
-  after_find :set_find_message
-  after_create :set_create_message
 
   def attach_new_image
     image.attach(new_image) if new_image
@@ -42,10 +47,5 @@ class User < ApplicationRecord
 
   def set_create_message
     self.login_message = 'アカウント登録しました'
-  end
-
-  # include RemoteFileAttachable
-  def attachment_target
-    image
   end
 end
