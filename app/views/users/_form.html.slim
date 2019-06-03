@@ -4,8 +4,8 @@
   = render 'shared/form_errors', model: user, field: :name
 
   = f.label :new_image, class: label_class(model: user, field: :new_image), for: 'js-mypage_filefield'
-    #js-mypage_filename.mb-0 画像の変更
-  = f.file_field :new_image, id: 'js-mypage_filefield', class: 'd-none'
+    #js-mypage_filename_text.mb-0 画像の変更
+  = f.file_field :new_image, id: 'js-mypage_filefield', class: 'd-none', accept: 'image/jpeg,image/jpg,image/png, image/gif'
   = render 'shared/form_errors', model: user, field: :new_image
 
   = f.submit '更新', class: 'btn btn-lg btn-block btn-secondary bg-light-purple border-middle-purple text-middle-purple mt-2 mt-lg-3 mb-lg-4'
