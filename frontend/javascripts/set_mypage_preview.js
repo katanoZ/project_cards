@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', setMyPagePreview);
 //マイページの画像ファイル選択時にプレビューを表示
 function setMyPagePreview(){
   const myPageFileField = document.querySelector('#js-mypage_filefield');
+  if (myPageFileField === null) {　return; }
 
   myPageFileField.addEventListener('change', () => {
     const inputFile = document.querySelector('#js-mypage_filefield').files[0];
