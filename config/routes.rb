@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
 
   # マイページ
-  resource :user, path: 'mypage', as: 'mypage', only: %i[show edit update]
+  resource :user, path: 'mypage', as: 'mypage', only: %i[show edit update destroy]
 end
