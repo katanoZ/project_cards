@@ -5,3 +5,4 @@ ja:
     attributes:
       user:
         name: ユーザ名
+        new_image: 画像

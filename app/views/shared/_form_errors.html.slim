@@ -1,0 +1,6 @@
+- if model.errors[field].present?
+  .invalid-feedback.d-block
+    - model.errors[field].each do |msg|
+      p.my-1
+        = model.class.human_attribute_name(field)
+        = msg
