@@ -36,6 +36,12 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+group :staging, :production do
+  # cloudinary heroku add-on
+  gem 'cloudinary', require: false
+  gem 'activestorage-cloudinary-service'
+end
+
 group :staging, :development, :test do
   gem 'rails-env-credentials'
 end
