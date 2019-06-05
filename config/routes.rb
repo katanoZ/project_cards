@@ -8,4 +8,7 @@ Rails.application.routes.draw do
 
   # マイページ
   resource :user, path: 'mypage', as: 'mypage', only: %i[show edit update destroy]
+
+  # プロジェクト
+  resources :projects, only: %i[index]
 end

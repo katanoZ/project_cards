@@ -1,3 +1,7 @@
-h1 Projects#index
-p Find me in app/views/projects/index.html.slim
-= image_pack_tag 'kuma.png'
+.row
+  - @projects.each do |project|
+    .col-12.col-sm-6.col-lg-4.mt-4
+      .card.border-middle-purple.bg-white-purple.text-secondary-purple.height-150px
+        .card-body.overflow-scroll
+          .card-text.text-center.h4.mt-4
+            = project.name
