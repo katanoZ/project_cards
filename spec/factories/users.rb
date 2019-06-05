@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :user do
     auth = [
-      Faker::Omniauth.google,
-      Faker::Omniauth.twitter,
-      Faker::Omniauth.github
+      Faker::Omniauth.unique.google,
+      Faker::Omniauth.unique.twitter,
+      Faker::Omniauth.unique.github
     ].sample
 
     provider { auth[:provider] }
