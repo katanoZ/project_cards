@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include RemoteFileAttachable
 
+  has_many :projects, dependent: :destroy
+
   has_one_attached :image
   attribute :new_image
   attr_reader :login_message
