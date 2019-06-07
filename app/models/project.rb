@@ -7,6 +7,9 @@ class Project < ApplicationRecord
   # プロジェクト一覧の先頭に挿入されるプロジェクト以外（リンクなど）の個数
   PADDING_COUNT = 1
 
+  validates :name, presence: true, uniqueness: true, length: { maximum: 140 }
+  validates :summary, length: { maximum: 300 }
+
   scope :for_list, ->(page) do
     order(id: :desc).page(page).per(COUNT_PER_PAGE)
   end
