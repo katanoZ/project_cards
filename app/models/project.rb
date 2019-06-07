@@ -28,6 +28,10 @@ class Project < ApplicationRecord
   end
 
   scope :for_myprojects_second_page_or_later, ->(user, page) do
+    # もし1ページ目が指定されても値を返さないようにする
+    # （kaminariのissueによると、1ページ目でpaddingマイナス値を使うと不具合がある）
+    return [] if ['1', 1, nil].include?(page)
+
     where(owner: user).order(id: :desc).page(page).per(COUNT_PER_PAGE)
                       .padding(-PADDING_COUNT)
   end
