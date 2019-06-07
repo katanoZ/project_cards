@@ -18,13 +18,13 @@ class Project < ApplicationRecord
     if page
       for_myprojects_second_page_or_later(user, page)
     else
-      for_myprojects_first_page(user, page)
+      for_myprojects_first_page(user)
     end
   end
 
-  scope :for_myprojects_first_page, ->(user, page) do
+  scope :for_myprojects_first_page, ->(user) do
     count_for_first_page = COUNT_PER_PAGE - PADDING_COUNT
-    where(owner: user).order(id: :desc).page(page).per(count_for_first_page)
+    where(owner: user).order(id: :desc).page(nil).per(count_for_first_page)
   end
 
   scope :for_myprojects_second_page_or_later, ->(user, page) do
