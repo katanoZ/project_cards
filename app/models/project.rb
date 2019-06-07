@@ -7,6 +7,10 @@ class Project < ApplicationRecord
   # プロジェクト一覧の先頭に挿入されるプロジェクト以外（リンクなど）の個数
   PADDING_COUNT = 1
 
+  scope :for_list, ->(page) do
+    order(id: :desc).page(page).per(COUNT_PER_PAGE)
+  end
+
   scope :for_myprojects_list, ->(user, page) do
     if page
       for_myprojects_second_page_or_later(user, page)

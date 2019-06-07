@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.order(id: :desc).page(params[:page]).per(Project::COUNT_PER_PAGE)
+    @projects = Project.for_list(params[:page])
   end
 end
