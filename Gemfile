@@ -98,4 +98,5 @@ gem 'omniauth-twitter'
 gem 'omniauth-github'
 
 # paginator
-gem 'kaminari'
+# kaminari現行バージョンでpaddingの引数マイナス値が使えないため、使えるバージョンを指定
+gem 'kaminari', '0.17.0'
