@@ -54,7 +54,6 @@ group :development, :test do
   # for test
   gem 'rspec-rails'
   gem 'factory_bot_rails'
-  gem 'faker'
 end
 
 group :development do
@@ -100,3 +99,6 @@ gem 'omniauth-github'
 # paginator
 # kaminari現行バージョンでpaddingの引数マイナス値が使えないため、使えるバージョンを指定
 gem 'kaminari', '0.17.0'
+
+# create fake data（production stagingでもseeds.rbで使用）
+gem 'faker'
