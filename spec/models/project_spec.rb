@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  describe '.for_list' do
+  describe '.for_full_list' do
     context '該当のデータが存在する場合' do
-      let(:results) { Project.for_list(2) }
+      let(:results) { Project.for_full_list(2) }
 
       before do
         (1..12).each { |n| create(:project, name: "Project_#{n}") }
@@ -21,7 +21,7 @@ RSpec.describe Project, type: :model do
     end
 
     context '該当のデータが存在しない場合' do
-      let(:results) { Project.for_list(1) }
+      let(:results) { Project.for_full_list(1) }
 
       it '件数が正しいこと' do
         expect(results.count).to eq 0

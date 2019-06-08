@@ -10,7 +10,7 @@ class Project < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { maximum: 140 }
   validates :summary, length: { maximum: 300 }
 
-  scope :for_list, ->(page) do
+  scope :for_full_list, ->(page) do
     order(id: :desc).page(page).per(COUNT_PER_PAGE)
   end
 
