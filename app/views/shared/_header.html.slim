@@ -6,7 +6,9 @@ header.header
       #navbarSupportedContent.collapse.navbar-collapse
         ul.navbar-nav.mr-auto.mt-3.mt-sm-0
           li.nav-item
-            = link_to 'トップ', root_path, class: 'btn btn-outline-light'
+            = link_to '全プロジェクト', root_path, class: 'btn btn-outline-light'
+          li.nav-item.mt-2.mt-sm-0.ml-0.ml-sm-2
+            = link_to 'マイプロジェクト', myprojects_path, class: 'btn btn-outline-light'
 
         ul.navbar-nav.mt-3.mt-sm-0.ml-0.ml-sm-2
           - if logged_in?

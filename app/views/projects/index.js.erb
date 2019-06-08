@@ -1,0 +1,12 @@
+<%# サーバ側のビューテンプレートやkaminariのヘルパーメソッドを使いたいため、
+    Server-generated Javascript Responseを使用する %>
+
+<%# プロジェクト一覧に新しいプロジェクトを追加 %>
+var projects = document.getElementById('js-projects');
+var newProjects = "<%= j(render 'projects/projects', projects: @projects) %>";
+projects.insertAdjacentHTML('beforeend', newProjects);
+
+<%# 「もっと見る」ボタンを書き換え %>
+var viewMore = document.getElementById('js-view_more');
+var newViewMore = "<%= j(render 'projects/view_more', projects: @projects) %>";
+viewMore.innerHTML = newViewMore;

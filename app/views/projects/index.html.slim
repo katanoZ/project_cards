@@ -1,3 +1,4 @@
-h1 Projects#index
-p Find me in app/views/projects/index.html.slim
-= image_pack_tag 'kuma.png'
+#js-projects.row
+  = render 'projects', projects: @projects
+#js-view_more
+  = render 'view_more', projects: @projects
