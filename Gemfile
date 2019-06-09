@@ -102,3 +102,6 @@ gem 'kaminari', '0.17.0'
 
 # create fake data（production stagingでもseeds.rbで使用）
 gem 'faker'
+
+# decorator
+gem 'active_decorator'
