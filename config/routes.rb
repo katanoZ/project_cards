@@ -10,10 +10,10 @@ Rails.application.routes.draw do
   resource :user, path: 'mypage', as: 'mypage',
                   only: %i[show edit update destroy]
 
-  # プロジェクト
+  # 全プロジェクト
   resources :projects, only: %i[index]
 
   # マイプロジェクト
   resources :projects, path: 'myprojects', as: 'myprojects', module: :myprojects,
-                       only: %i[index]
+                       only: %i[index new create]
 end
