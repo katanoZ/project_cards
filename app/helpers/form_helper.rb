@@ -14,4 +14,8 @@ module FormHelper
       'btn btn-lg btn-block btn-secondary bg-light-purple border-middle-purple text-middle-purple mt-2 mt-lg-4'
     end
   end
+
+  def myproject_form_path(project)
+    project.new_record? ? myprojects_path : myproject_path(project)
+  end
 end
