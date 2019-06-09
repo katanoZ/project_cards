@@ -14,6 +14,6 @@ Rails.application.routes.draw do
   resources :projects, only: %i[index]
 
   # マイプロジェクト
-  resources :projects, path: 'myprojects', as: 'myprojects', module: :myprojects,
-                       only: %i[index new create edit update destroy]
+  resources :myprojects, controller: :projects, module: :myprojects,
+                         only: %i[index new create edit update destroy]
 end
