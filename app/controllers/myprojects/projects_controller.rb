@@ -17,7 +17,7 @@ class Myprojects::ProjectsController < ApplicationController
     @project = current_user.projects.build(project_params)
 
     if @project.save
-      redirect_to myprojects_path, notice: 'プロジェクトを作成しました'
+      redirect_to projects_path, notice: 'プロジェクトを作成しました'
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Myprojects::ProjectsController < ApplicationController
 
   def update
     if @project.update(project_params)
-      redirect_to myprojects_path, notice: 'プロジェクトを更新しました'
+      redirect_to projects_path, notice: 'プロジェクトを更新しました'
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class Myprojects::ProjectsController < ApplicationController
 
   def destroy
     @project.destroy!
-    redirect_to myprojects_path, notice: 'プロジェクトを削除しました'
+    redirect_to projects_path, notice: 'プロジェクトを削除しました'
   end
 
   private
