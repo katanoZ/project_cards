@@ -72,6 +72,9 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'webdrivers'
+
+  # ヘルパーを含むactive_decoratorをテストする
+  gem 'active_decorator-rspec'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -102,3 +105,6 @@ gem 'kaminari', '0.17.0'
 
 # create fake data（production stagingでもseeds.rbで使用）
 gem 'faker'
+
+# decorator
+gem 'active_decorator'

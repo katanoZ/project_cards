@@ -24,6 +24,12 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_decorator (1.2.0)
+    active_decorator-rspec (0.0.9)
+      actionpack
+      active_decorator
+      activesupport
+      rspec (>= 3.0)
     activejob (5.2.3)
       activesupport (= 5.2.3)
       globalid (>= 0.3.6)
@@ -213,6 +219,10 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rspec (3.8.0)
+      rspec-core (~> 3.8.0)
+      rspec-expectations (~> 3.8.0)
+      rspec-mocks (~> 3.8.0)
     rspec-core (3.8.0)
       rspec-support (~> 3.8.0)
     rspec-expectations (3.8.3)
@@ -304,6 +314,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_decorator
+  active_decorator-rspec
   activestorage-cloudinary-service
   bootsnap (>= 1.1.0)
   byebug

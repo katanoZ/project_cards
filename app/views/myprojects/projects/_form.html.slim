@@ -1,0 +1,27 @@
+.row
+  .col-12.col-md-10.mx-auto.mt-4
+    .card.border-middle-purple.text-purple
+      .card-header.h3.bg-light-purple.pl-md-5 = title
+      .card-body.p-md-5
+        .card-text.h5
+          = form_with model: project, url: project.form_path, local: true do |f|
+            .form-group
+              = f.label :name
+              = f.text_field :name, class: field_class(model: project, field: :name)
+              = render 'shared/form_errors', model: project, field: :name
+
+            .form-group.mt-4
+              = f.label :summary
+              = f.text_area :summary, class: field_class(model: project, field: :summary), rows: '5'
+              = render 'shared/form_errors', model: project, field: :summary
+
+            - if project.new_record?
+              = f.submit '作成', class: 'btn btn-lg btn-secondary bg-light-purple border-middle-purple text-middle-purple mt-4 width-200px'
+
+            -else
+              = f.submit '編集', class: 'btn btn-lg btn-secondary bg-light-purple border-middle-purple text-middle-purple mt-4 width-200px'
+              = link_to '削除', myproject_path(project), method: :delete, data: { confirm: '本当に削除していいですか？' }, class: 'btn btn-lg btn-outline-secondary border-middle-purple text-middle-purple mt-4 width-100px mt-4 ml-1 ml-sm-2'
+
+          = link_to projects_path, class: 'text-middle-purple link-unstyled float-right mt-4 mt-lg-0' do
+            i.fas.fa-link.mr-1
+            |一覧に戻る

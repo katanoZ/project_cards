@@ -5,4 +5,8 @@ ja:
     attributes:
       user:
         name: ユーザ名
-        new_image: 画像
+        new_image: 画像      
+      project:
+        name: プロジェクト名
+        summary: 概要
+

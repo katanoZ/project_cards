@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FlashHelper, type: :helper do
-  describe 'flash_class' do
+  describe '#flash_class' do
     subject { flash_class(key) }
 
     context 'キーがnoticeの場合' do

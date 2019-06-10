@@ -35,4 +35,8 @@ class Project < ApplicationRecord
     where(owner: user).order(id: :desc).page(page).per(COUNT_PER_PAGE)
                       .padding(-PADDING_COUNT)
   end
+
+  def myproject?(user)
+    owner == user
+  end
 end

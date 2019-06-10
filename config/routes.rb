@@ -7,13 +7,13 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#create'
 
   # マイページ
-  resource :user, path: 'mypage', as: 'mypage',
-                  only: %i[show edit update destroy]
+  resource :mypage, controller: :users,
+                    only: %i[show edit update destroy]
 
-  # プロジェクト
+  # 全プロジェクト
   resources :projects, only: %i[index]
 
   # マイプロジェクト
-  resources :projects, path: 'myprojects', as: 'myprojects', module: :myprojects,
-                       only: %i[index]
+  resources :myprojects, controller: :projects, module: :myprojects,
+                         only: %i[index new create edit update destroy]
 end
