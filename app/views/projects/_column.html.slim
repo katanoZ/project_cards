@@ -7,7 +7,7 @@
             i.fas.fa-arrow-circle-left.fa-lg
 
         .col.text-center.text-truncate.px-0
-          = link_to '#', class: 'card btn btn-lg btn-outline-secondary bg-white-purple text-middle-purple' do
+          = link_to edit_project_column_path(project, column), class: 'card btn btn-lg btn-outline-secondary bg-white-purple text-middle-purple' do
             .card-body.text-truncate.p-0
               .card-text = column.name
 
