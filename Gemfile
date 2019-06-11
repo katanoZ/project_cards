@@ -108,3 +108,6 @@ gem 'faker'
 
 # decorator
 gem 'active_decorator'
+
+# manage lists
+gem 'acts_as_list'
