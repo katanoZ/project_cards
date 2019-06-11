@@ -37,6 +37,15 @@ class Project < ApplicationRecord
                       .padding(-PADDING_COUNT)
   end
 
+  scope :accessible, ->(user) do
+    # TODO: 招待機能を作成する際に、招待されたユーザもアクセス可能に設定すること
+    where(owner: user)
+  end
+
+  def accessible?(user)
+    self.class.accessible(user).exists?(id)
+  end
+
   def myproject?(user)
     owner == user
   end
