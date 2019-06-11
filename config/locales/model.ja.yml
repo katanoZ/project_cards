@@ -9,4 +9,6 @@ ja:
       project:
         name: プロジェクト名
         summary: 概要
+      column:
+        name: カラム名
 
