@@ -1,4 +1,5 @@
 class Project < ApplicationRecord
+  has_many :columns, dependent: :destroy
   belongs_to :owner, class_name: 'User', foreign_key: :user_id
 
   # プロジェクト一覧で1ページに表示するプロジェクトの個数
@@ -34,6 +35,15 @@ class Project < ApplicationRecord
 
     where(owner: user).order(id: :desc).page(page).per(COUNT_PER_PAGE)
                       .padding(-PADDING_COUNT)
+  end
+
+  scope :accessible, ->(user) do
+    # TODO: 招待機能を作成する際に、招待されたユーザもアクセス可能に設定すること
+    where(owner: user)
+  end
+
+  def accessible?(user)
+    self.class.accessible(user).exists?(id)
   end
 
   def myproject?(user)

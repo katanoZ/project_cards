@@ -1,0 +1,19 @@
+.col-8.col-sm-6.col-md-5.col-lg-4.col-xl-3.col-scroll-x
+  .card.border-middle-purple
+    .card-header.bg-white-purple
+      .row.align-items-center
+        .col-2.pl-2.pr-0
+          = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+            i.fas.fa-arrow-circle-left.fa-lg
+
+        .col.text-center.text-truncate.px-0
+          = link_to edit_project_column_path(project, column), class: 'card btn btn-lg btn-outline-secondary bg-white-purple text-middle-purple' do
+            .card-body.text-truncate.p-0
+              .card-text = column.name
+
+        .col-2.pl-0.pr-2.text-right
+          = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+            i.fas.fa-arrow-circle-right.fa-lg
+
+    .card-body
+      = link_to 'カードを追加', '#', class: 'btn btn-sm btn-outline-secondary border-middle-purple text-middle-purple my-2'

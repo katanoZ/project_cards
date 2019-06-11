@@ -11,7 +11,9 @@ Rails.application.routes.draw do
                     only: %i[show edit update destroy]
 
   # 全プロジェクト
-  resources :projects, only: %i[index]
+  resources :projects, only: %i[index show] do
+    resources :columns, only: %i[new create edit update destroy]
+  end
 
   # マイプロジェクト
   resources :myprojects, controller: :projects, module: :myprojects,

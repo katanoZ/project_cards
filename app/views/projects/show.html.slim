@@ -1,0 +1,13 @@
+.row
+  .col-md-7.col-lg-8.col-xl-9.overflow-scroll
+    .h4.text-middle-purple = @project.name
+
+.row.mt-4.text-middle-purple.row-scroll-x.w-100.pb-2
+
+  - @project.columns.each do |column|
+    = render 'column', project: @project, column: column
+
+  .col-2.col-scroll-x
+    = link_to new_project_column_path(@project), class: 'btn btn-outline-secondary border-middle-purple bg-white-purple text-middle-purple mt-0' do
+      i.fas.fa-plus-square.fa-lg.mr-2
+      |カラムを追加
