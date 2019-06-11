@@ -3,7 +3,7 @@
     .card-header.bg-white-purple
       .row.align-items-center
         .col-2.pl-2.pr-0
-          = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+          = link_to previous_project_column_path(project, column), class: column.arrow_link_class(:left) do
             i.fas.fa-arrow-circle-left.fa-lg
 
         .col.text-center.text-truncate.px-0
@@ -12,7 +12,7 @@
               .card-text = column.name
 
         .col-2.pl-0.pr-2.text-right
-          = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+          = link_to next_project_column_path(project, column), class: column.arrow_link_class(:right) do
             i.fas.fa-arrow-circle-right.fa-lg
 
     .card-body
