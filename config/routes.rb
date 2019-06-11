@@ -12,7 +12,10 @@ Rails.application.routes.draw do
 
   # 全プロジェクト
   resources :projects, only: %i[index show] do
-    resources :columns, only: %i[new create edit update destroy]
+    resources :columns, only: %i[new create edit update destroy] do
+      get 'previous', on: :member
+      get 'next', on: :member
+    end
   end
 
   # マイプロジェクト
