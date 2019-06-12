@@ -15,7 +15,7 @@ function setMyPagePreview(){
     //プレビュー画像を表示
     const reader = new FileReader();
     reader.readAsDataURL(inputFile);
-    reader.onload = function(){
+    reader.onload = () => {
       const myPageImage = document.getElementById('js-mypage_image');
       myPageImage.setAttribute('src', reader.result);
     };
