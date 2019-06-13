@@ -1,4 +1,5 @@
 class Column < ApplicationRecord
+  has_many :cards, dependent: :destroy
   belongs_to :project
 
   acts_as_list scope: :project

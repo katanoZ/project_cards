@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_11_172646) do
+ActiveRecord::Schema.define(version: 2019_06_13_040942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(version: 2019_06_11_172646) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.string "name", null: false
+    t.date "due_date"
+    t.bigint "assignee_id", null: false
+    t.bigint "project_id", null: false
+    t.bigint "column_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_cards_on_assignee_id"
+    t.index ["column_id"], name: "index_cards_on_column_id"
+    t.index ["project_id", "name"], name: "index_cards_on_project_id_and_name", unique: true
+    t.index ["project_id"], name: "index_cards_on_project_id"
   end
 
   create_table "columns", force: :cascade do |t|
@@ -66,6 +80,9 @@ ActiveRecord::Schema.define(version: 2019_06_11_172646) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cards", "columns"
+  add_foreign_key "cards", "projects"
+  add_foreign_key "cards", "users", column: "assignee_id"
   add_foreign_key "columns", "projects"
   add_foreign_key "projects", "users"
 end
