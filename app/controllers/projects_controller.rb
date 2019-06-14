@@ -4,6 +4,8 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.accessible(current_user).find(params[:id])
+    @project = Project.includes(columns: :cards)
+                      .accessible(current_user)
+                      .find(params[:id])
   end
 end
