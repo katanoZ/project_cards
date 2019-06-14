@@ -11,4 +11,8 @@ ja:
         summary: 概要
       column:
         name: カラム名
+      card:
+        name: カード名
+        due_date: 期限
+        assignee_id: 担当者
 

@@ -1,0 +1,22 @@
+.card.border-middle-purple.bg-light-purple.text-middle-purple.my-2
+  .card-body.overflow-scroll.pt-3.pb-2
+    .row
+      .col-2.px-0.my-auto
+        = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+          i.far.fa-arrow-alt-circle-left.fa-lg
+
+      .col.text-center.text-truncate.px-0
+        = link_to edit_project_column_card_path(project, column, card), class: 'link-unstyled' do
+          .card.btn.btn-lg.btn-outline-secondary.bg-light-purple.text-middle-purple
+            .card-body.text-truncate.p-0
+              .card-text.h6 = card.name
+
+      .col-2.text-right.px-0.my-auto
+        = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+          i.far.fa-arrow-alt-circle-right.fa-lg
+
+    .row.mt-2
+      .col.text-right
+        span.mr-1.align-bottom = card.due_date_text
+          
+        = image_tag card.assignee.image, class: 'size35x35 rounded-circle'

@@ -1,8 +1,7 @@
-class Column < ApplicationRecord
-  has_many :cards, dependent: :destroy
+class Card < ApplicationRecord
+  belongs_to :assignee, class_name: 'User', foreign_key: :assignee_id
   belongs_to :project
-
-  acts_as_list scope: :project
+  belongs_to :column
 
   validates :name, presence: true,
                    uniqueness: { scope: :project },

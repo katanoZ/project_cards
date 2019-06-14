@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
   has_many :columns, -> { order(position: :asc) }, dependent: :destroy
-  belongs_to :owner, class_name: 'User', foreign_key: :user_id
+  has_many :cards, dependent: :destroy
+  belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
   # プロジェクト一覧で1ページに表示するプロジェクトの個数
   COUNT_PER_PAGE = 9

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :columns, only: %i[new create edit update destroy] do
       get 'previous', on: :member
       get 'next', on: :member
+      resources :cards, only: %i[new create edit update destroy]
     end
   end
 
