@@ -1,6 +1,7 @@
 class CardsController < ApplicationController
   before_action :set_project
   before_action :set_column
+  before_action :set_card, only: %i[edit update destroy]
 
   def new
     @card = @column.cards.build
@@ -18,6 +19,22 @@ class CardsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @card.update(card_params)
+      redirect_to project_path(@project), notice: 'カードを更新しました'
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @card.destroy!
+    redirect_to project_path(@project), notice: 'カードを削除しました'
+  end
+
   private
 
   def card_params
@@ -30,5 +47,9 @@ class CardsController < ApplicationController
 
   def set_column
     @column = @project.columns.find(params[:column_id])
+  end
+
+  def set_card
+    @card = @column.cards.find(params[:id])
   end
 end
