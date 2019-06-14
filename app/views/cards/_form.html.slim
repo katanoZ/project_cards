@@ -15,7 +15,7 @@
                 .form-group
                   = f.label :due_date
                   / placeholderとpatternはカレンダー入力非対応ブラウザ用（Safariなど）
-                  = f.date_field :due_date, type: 'date', class: field_class(model: card, field: :due_date), min: Date.today, placeholder: 'yyyy-mm-dd', pattern: '^(20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$'
+                  = f.date_field :due_date, type: 'date', class: field_class(model: card, field: :due_date), placeholder: 'yyyy-mm-dd', pattern: '^(20[0-9][0-9])-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$'
                   = render 'shared/form_errors', model: card, field: :due_date
               .col-12.col-md-6
                 .form-group
