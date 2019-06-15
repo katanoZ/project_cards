@@ -1,7 +1,7 @@
 class CardsController < ApplicationController
   before_action :set_project
   before_action :set_column
-  before_action :set_card, only: %i[edit update destroy]
+  before_action :set_card, only: %i[edit update destroy previous next]
 
   def new
     @card = @column.cards.build
@@ -33,6 +33,16 @@ class CardsController < ApplicationController
   def destroy
     @card.destroy!
     redirect_to project_path(@project), notice: 'カードを削除しました'
+  end
+
+  def previous
+    @card.move_to_higher_column
+    redirect_to project_path(@project)
+  end
+
+  def next
+    @card.move_to_lower_column
+    redirect_to project_path(@project)
   end
 
   private

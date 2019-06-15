@@ -2,7 +2,7 @@
   .card-body.overflow-scroll.pt-3.pb-2
     .row
       .col-2.px-0.my-auto
-        = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+        = link_to previous_project_column_card_path(project, column, card), class: column.arrow_link_class(:left) do
           i.far.fa-arrow-alt-circle-left.fa-lg
 
       .col.text-center.text-truncate.px-0
@@ -12,7 +12,7 @@
               .card-text.h6 = card.name
 
       .col-2.text-right.px-0.my-auto
-        = link_to '#', class: 'text-middle-purple hover-middle-purple' do
+        = link_to next_project_column_card_path(project, column, card), class: column.arrow_link_class(:right) do
           i.far.fa-arrow-alt-circle-right.fa-lg
 
     .row.mt-2
