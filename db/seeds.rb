@@ -19,7 +19,9 @@
   )
 
   File.open("#{Rails.root}/public/avatar_sample.jpeg") do |file|
-    user.image.attach(file)
+    user.image.attach(io: file,
+                      filename: 'avatar_sample.jpeg',
+                      content_type: 'image/jpeg')
   end
 end
 
@@ -28,7 +30,7 @@ end
   Project.create!(
     name: "プロジェクト#{n + 1}",
     summary: "プロジェクト#{n + 1}の概要",
-    user_id: User.ids.sample
+    owner_id: User.ids.sample
   )
 end
 
