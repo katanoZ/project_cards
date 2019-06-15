@@ -10,11 +10,15 @@ class Card < ApplicationRecord
                    length: { maximum: 40 }
 
   def move_to_higher_column
+    return false if column.first?
+
     self.column = column.higher_item
     save
   end
 
   def move_to_lower_column
+    return false if column.last?
+
     self.column = column.lower_item
     save
   end
