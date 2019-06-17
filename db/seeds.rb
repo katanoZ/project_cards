@@ -18,9 +18,9 @@
     uid: uid
   )
 
-  File.open("#{Rails.root}/public/avatar_sample.jpeg") do |file|
+  File.open("#{Rails.root}/public/avatar_sample.jpg") do |file|
     user.image.attach(io: file,
-                      filename: 'avatar_sample.jpeg',
+                      filename: 'avatar_sample.jpg',
                       content_type: 'image/jpeg')
   end
 end
