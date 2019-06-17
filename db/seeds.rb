@@ -33,14 +33,3 @@ end
     owner_id: User.ids.sample
   )
 end
-
-# my_projects
-# 最初に登録したユーザのプロジェクトが100件登録される
-user = User.first
-100.times do |n|
-  Project.create!(
-    name: "プロジェクト#{n + 1001}",
-    summary: "プロジェクト#{n + 1001}の概要",
-    owner: user
-  )
-end
