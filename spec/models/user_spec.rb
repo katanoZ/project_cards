@@ -42,6 +42,33 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.search' do
+    before do
+      create(:user, name: '田中花子')
+    end
+
+    context '該当のユーザが存在する場合' do
+      let!(:user) { create(:user, name: '田中花太郎') }
+      let(:results) { User.search('太') }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq user
+      end
+    end
+
+    context '該当のユーザが存在しない場合' do
+      let(:results) { User.search('佐藤') }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
   describe '#set_find_message' do
     let(:user) { create(:user) }
     let(:login_user) { User.find(user.id) }
