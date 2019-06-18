@@ -1,0 +1,10 @@
+= form_with model: form, url: project_invitations_path(project), scope: :invitation, method: :get, local: true do |f|
+
+  p.mb-2 ユーザを検索
+  .row
+    .col-11.col-sm-7.pr-0.mb-2
+      = f.text_field :name, class: field_class(model: form, field: :name), placeholder: 'ユーザ名（一部でも可）'
+      = render 'shared/form_errors', model: form, field: :name
+
+    .col-auto.pl-3.pl-sm-2
+      = f.submit '検索', class: 'btn btn-lg btn-secondary bg-light-purple border-middle-purple text-middle-purple width-150px mb-5'

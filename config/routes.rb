@@ -20,6 +20,12 @@ Rails.application.routes.draw do
         get 'next', on: :member
       end
     end
+
+    # 招待
+    controller :invitations do
+      get 'invite', action: :invite
+      resources :invitations, only: %i[index]
+    end
   end
 
   # マイプロジェクト

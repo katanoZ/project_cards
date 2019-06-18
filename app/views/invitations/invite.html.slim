@@ -1,0 +1,12 @@
+.row
+  .col-12.col-md-10.mx-auto.mt-4
+    .card.border-middle-purple.text-purple
+      .card-header.h3.bg-light-purple.pl-md-5 ユーザを招待
+      .card-body.p-md-5
+        .card-text.h5
+          = render 'form', form: @invitation_form, project: @project
+          = render 'users', project: @project, users: @users
+
+          = link_to project_path(@project), class: 'text-middle-purple link-unstyled float-right mt-4 mt-lg-0' do
+            i.fas.fa-link.mr-1
+            |プロジェクトに戻る

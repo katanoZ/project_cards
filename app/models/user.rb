@@ -34,6 +34,10 @@ class User < ApplicationRecord
     end
   end
 
+  scope :search, ->(keyword) do
+    where('name LIKE ?', "%#{sanitize_sql_like(keyword)}%")
+  end
+
   def owner?(project)
     self == project.owner
   end

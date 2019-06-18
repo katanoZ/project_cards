@@ -16,3 +16,8 @@ ja:
         due_date: 期限
         assignee_id: 担当者
 
+  # フォームクラス
+  activemodel:
+    attributes:
+      invitation_form:
+        name: ユーザ名
