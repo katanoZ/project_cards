@@ -34,6 +34,10 @@ class User < ApplicationRecord
     end
   end
 
+  def owner?(project)
+    self == project.owner
+  end
+
   # include RemoteFileAttachable
   def attachment_target
     image

@@ -164,25 +164,4 @@ RSpec.describe Project, type: :model do
   # TODO: ユーザ招待機能を作成後にaccessible実装してテストも作成すること
   describe '.accessible'
   describe '#accessible?'
-
-  describe 'myproject?' do
-    subject { project.myproject?(user) }
-    let(:user) { create(:user) }
-
-    context 'ユーザがプロジェクトのオーナーの場合' do
-      let(:project) { create(:project, owner: user) }
-
-      it '結果が正しいこと' do
-        is_expected.to be_truthy
-      end
-    end
-
-    context 'ユーザがプロジェクトのオーナーでない場合' do
-      let(:project) { create(:project) }
-
-      it '結果が正しいこと' do
-        is_expected.to be_falsey
-      end
-    end
-  end
 end

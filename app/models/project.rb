@@ -46,8 +46,4 @@ class Project < ApplicationRecord
   def accessible?(user)
     self.class.accessible(user).exists?(id)
   end
-
-  def myproject?(user)
-    owner == user
-  end
 end

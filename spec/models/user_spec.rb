@@ -91,6 +91,27 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'owner?' do
+    subject { user.owner?(project) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがプロジェクトのオーナーの場合' do
+      let(:project) { create(:project, owner: user) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトのオーナーでない場合' do
+      let(:project) { create(:project) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_falsey
+      end
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
