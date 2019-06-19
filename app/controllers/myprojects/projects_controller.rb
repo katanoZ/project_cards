@@ -10,11 +10,11 @@ class Myprojects::ProjectsController < ApplicationController
   end
 
   def new
-    @project = current_user.projects.build
+    @project = current_user.owner_projects.build
   end
 
   def create
-    @project = current_user.projects.build(project_params)
+    @project = current_user.owner_projects.build(project_params)
 
     if @project.save
       redirect_to projects_path, notice: 'プロジェクトを作成しました'
@@ -46,6 +46,6 @@ class Myprojects::ProjectsController < ApplicationController
   end
 
   def set_project
-    @project = current_user.projects.find(params[:id])
+    @project = current_user.owner_projects.find(params[:id])
   end
 end

@@ -18,6 +18,6 @@ class InvitationsController < ApplicationController
   end
 
   def set_project
-    @project = current_user.projects.find(params[:project_id])
+    @project = current_user.owner_projects.find(params[:project_id])
   end
 end

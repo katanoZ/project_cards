@@ -1,6 +1,8 @@
 class Project < ApplicationRecord
   has_many :columns, -> { order(position: :asc) }, dependent: :destroy
   has_many :cards, dependent: :destroy
+  has_many :invitations, dependent: :destroy
+  has_many :invited_users, through: :invitations, source: :user
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
   # プロジェクト一覧で1ページに表示するプロジェクトの個数

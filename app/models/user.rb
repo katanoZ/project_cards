@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   include RemoteFileAttachable
 
-  has_many :projects, foreign_key: :owner_id,
-                      dependent: :destroy
-  has_many :assigned_cards, class_name: 'Card',
-                            foreign_key: :assignee_id,
+  has_many :owner_projects, class_name: 'Project', foreign_key: :owner_id,
                             dependent: :destroy
+  has_many :assigned_cards, class_name: 'Card', foreign_key: :assignee_id,
+                            dependent: :destroy
+  has_many :invitations, dependent: :destroy
+  has_many :invitation_projects, through: :invitations, source: :project
+
   has_one_attached :image
 
   attribute :new_image
