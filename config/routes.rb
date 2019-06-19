@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   root 'projects#index'
 
   # ログインページ
-  get 'login', to: 'sessions#new'
-  get 'logout', to: 'sessions#destroy'
-  get 'auth/:provider/callback', to: 'sessions#create'
+  controller :sessions do
+    get 'login', action: :new
+    get 'logout', action: :destroy
+    get 'auth/:provider/callback', action: :create
+  end
 
   # マイページ
   resource :mypage, controller: :users,
