@@ -41,7 +41,7 @@ class User < ApplicationRecord
   end
 
   def owner?(project)
-    self == project.owner
+    project.owner_id == id
   end
 
   def invited?(project)
