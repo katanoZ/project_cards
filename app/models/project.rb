@@ -48,4 +48,8 @@ class Project < ApplicationRecord
   def accessible?(user)
     self.class.accessible(user).exists?(id)
   end
+
+  def invite(user)
+    invitations.build(user: user).save
+  end
 end

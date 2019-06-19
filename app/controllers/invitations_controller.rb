@@ -11,6 +11,15 @@ class InvitationsController < ApplicationController
     render :invite
   end
 
+  def create
+    user = User.find(params[:user_id])
+    if @project.invite(user)
+      redirect_to project_path(@project), notice: "#{user.name}さんをプロジェクトに招待しました"
+    else
+      redirect_to project_path(@project), alert: '処理に失敗しました'
+    end
+  end
+
   private
 
   def invitation_params

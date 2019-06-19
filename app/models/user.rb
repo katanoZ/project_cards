@@ -44,6 +44,10 @@ class User < ApplicationRecord
     self == project.owner
   end
 
+  def invited?(project)
+    project.invitations.exists?(user_id: id)
+  end
+
   # include RemoteFileAttachable
   def attachment_target
     image
