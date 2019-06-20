@@ -13,8 +13,9 @@ module RemoteFileAttachable
   end
 
   def filename(url, content_type)
-    # omniauthで取得したinfo.imageのファイル名がcontent_typeと異なる拡張子の場合があるため、
-    # cloudinaryでエラーにならないように、content_typeに合わせた拡張子を付け直す。
+    # omniauthで取得したinfo.imageのファイル名に拡張子がない、
+    # またはcontent_typeと異なる拡張子の場合があるため、
+    # cloudinaryでエラーにならないように、content_typeに合わせた拡張子を付ける。
     name = File.basename(url, '.*')
     ext = Rack::Mime::MIME_TYPES.invert[content_type]
     "#{name}#{ext}"

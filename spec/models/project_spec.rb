@@ -165,24 +165,18 @@ RSpec.describe Project, type: :model do
   describe '.accessible'
   describe '#accessible?'
 
-  describe 'myproject?' do
-    subject { project.myproject?(user) }
+  describe '#invite' do
     let(:user) { create(:user) }
+    let(:project) { create(:project) }
 
-    context 'ユーザがプロジェクトのオーナーの場合' do
-      let(:project) { create(:project, owner: user) }
-
-      it '結果が正しいこと' do
-        is_expected.to be_truthy
-      end
+    it '結果が正しいこと' do
+      expect(project.invite(user)).to be_truthy
     end
-
-    context 'ユーザがプロジェクトのオーナーでない場合' do
-      let(:project) { create(:project) }
-
-      it '結果が正しいこと' do
-        is_expected.to be_falsey
-      end
+    
+    it '内容が正しいこと' do
+      expect { project.invite(user) }
+        .to change { project.invitations.count }.from(0).to(1)
+      expect(project.invitations.first.user).to eq user
     end
   end
 end

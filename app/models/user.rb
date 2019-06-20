@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   include RemoteFileAttachable
 
-  has_many :projects, foreign_key: :owner_id,
-                      dependent: :destroy
-  has_many :assigned_cards, class_name: 'Card',
-                            foreign_key: :assignee_id,
+  has_many :owner_projects, class_name: 'Project', foreign_key: :owner_id,
                             dependent: :destroy
+  has_many :assigned_cards, class_name: 'Card', foreign_key: :assignee_id,
+                            dependent: :destroy
+  has_many :invitations, dependent: :destroy
+  has_many :invitation_projects, through: :invitations, source: :project
+
   has_one_attached :image
 
   attribute :new_image
@@ -32,6 +34,18 @@ class User < ApplicationRecord
       user.name = auth[:info][:name]
       user.attach_remote_file!(auth[:info][:image])
     end
+  end
+
+  scope :search, ->(keyword) do
+    where('name LIKE ?', "%#{sanitize_sql_like(keyword)}%")
+  end
+
+  def owner?(project)
+    project.owner_id == id
+  end
+
+  def invited?(project)
+    project.invitations.exists?(user_id: id)
   end
 
   # include RemoteFileAttachable

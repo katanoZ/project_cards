@@ -42,6 +42,33 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.search' do
+    before do
+      create(:user, name: '田中花子')
+    end
+
+    context '該当のユーザが存在する場合' do
+      let!(:user) { create(:user, name: '田中花太郎') }
+      let(:results) { User.search('太') }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq user
+      end
+    end
+
+    context '該当のユーザが存在しない場合' do
+      let(:results) { User.search('佐藤') }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
   describe '#set_find_message' do
     let(:user) { create(:user) }
     let(:login_user) { User.find(user.id) }
@@ -87,6 +114,49 @@ RSpec.describe User, type: :model do
       it '結果が正しいこと' do
         user.update!(new_image: new_image)
         expect(user.image.attached?).to be_falsey
+      end
+    end
+  end
+
+  describe 'owner?' do
+    subject { user.owner?(project) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがプロジェクトのオーナーの場合' do
+      let(:project) { create(:project, owner: user) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトのオーナーでない場合' do
+      let(:project) { create(:project) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_falsey
+      end
+    end
+  end
+
+  describe '#invited?' do
+    subject { user.invited?(project) }
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+
+    context 'ユーザがプロジェクトに招待されている場合' do
+      before do
+        project.invite(user)
+      end
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトに招待されていない場合' do
+      it '結果が正しいこと' do
+        is_expected.to be_falsey
       end
     end
   end
