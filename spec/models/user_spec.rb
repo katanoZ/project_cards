@@ -139,6 +139,28 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#invited?' do
+    subject { user.invited?(project) }
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+
+    context 'ユーザがプロジェクトに招待されている場合' do
+      before do
+        project.invite(user)
+      end
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトに招待されていない場合' do
+      it '結果が正しいこと' do
+        is_expected.to be_falsey
+      end
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
