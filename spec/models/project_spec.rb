@@ -164,4 +164,19 @@ RSpec.describe Project, type: :model do
   # TODO: ユーザ招待機能を作成後にaccessible実装してテストも作成すること
   describe '.accessible'
   describe '#accessible?'
+
+  describe '#invite' do
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+
+    it '結果が正しいこと' do
+      expect(project.invite(user)).to be_truthy
+    end
+    
+    it '内容が正しいこと' do
+      expect { project.invite(user) }
+        .to change { project.invitations.count }.from(0).to(1)
+      expect(project.invitations.first.user).to eq user
+    end
+  end
 end
