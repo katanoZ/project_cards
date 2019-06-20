@@ -172,7 +172,7 @@ RSpec.describe Project, type: :model do
     it '結果が正しいこと' do
       expect(project.invite(user)).to be_truthy
     end
-    
+
     it '内容が正しいこと' do
       expect { project.invite(user) }
         .to change { project.invitations.count }.from(0).to(1)

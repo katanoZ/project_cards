@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
       end
 
       it '結果が正しいこと' do
-        expect { result }.not_to change { User.count }
+        expect { result }.not_to(change { User.count })
       end
 
       it '内容が正しいこと' do
