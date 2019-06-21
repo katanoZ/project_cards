@@ -1,0 +1,16 @@
+.row
+  .col-12.col-md-10.mx-auto.mt-4
+    .card.border-middle-purple.text-purple
+      .card-header.h3.bg-light-purple.pl-md-5 お知らせ
+
+      - if @invitations.empty?
+        .card-body.pl-md-5
+          .card-text.h4 お知らせはありません
+
+      - else
+        ul.list-group.text-middle-purple.h4
+          #js-notifications
+            = render 'notifications', invitations: @invitations
+
+        #js-view_more
+          = render 'view_more', invitations: @invitations

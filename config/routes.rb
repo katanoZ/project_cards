@@ -33,4 +33,7 @@ Rails.application.routes.draw do
   # マイプロジェクト
   resources :myprojects, controller: :projects, module: :myprojects,
                          only: %i[index new create edit update destroy]
+
+  # お知らせ
+  resources :notifications, only: %i[index]
 end

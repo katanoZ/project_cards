@@ -1,0 +1,9 @@
+<%# お知らせ一覧に新しいお知らせを追加 %>
+var notifications = document.getElementById('js-notifications');
+var newNotifications = "<%= j(render 'notifications', invitations: @invitations) %>";
+notifications.insertAdjacentHTML('beforeend', newNotifications);
+
+<%# 「もっと見る」ボタンを書き換え %>
+var viewMore = document.getElementById('js-view_more');
+var newViewMore = "<%= j(render 'view_more', invitations: @invitations) %>";
+viewMore.innerHTML = newViewMore;

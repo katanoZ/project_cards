@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
       end
 
       it '結果が正しいこと' do
-        expect { result }.not_to change { User.count }
+        expect { result }.not_to(change { User.count })
       end
 
       it '内容が正しいこと' do
@@ -157,6 +157,31 @@ RSpec.describe User, type: :model do
     context 'ユーザがプロジェクトに招待されていない場合' do
       it '結果が正しいこと' do
         is_expected.to be_falsey
+      end
+    end
+  end
+
+  describe '#notifications_count' do
+    subject { user.notifications_count }
+    let(:user) { create(:user) }
+
+    context 'ユーザへの通知がある場合' do
+      before do
+        create_list(:invitation, 2, user: user)
+      end
+
+      it '内容が正しいこと' do
+        is_expected.to eq 2
+      end
+    end
+
+    context 'ユーザへの通知が無い場合' do
+      before do
+        create(:invitation)
+      end
+
+      it '内容が正しいこと' do
+        is_expected.to eq 0
       end
     end
   end
