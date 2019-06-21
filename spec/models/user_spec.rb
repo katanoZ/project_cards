@@ -161,6 +161,31 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#notifications_count' do
+    subject { user.notifications_count }
+    let(:user) { create(:user) }
+
+    context 'ユーザへの通知がある場合' do
+      before do
+        create_list(:invitation, 2, user: user)
+      end
+
+      it '内容が正しいこと' do
+        is_expected.to eq 2
+      end
+    end
+
+    context 'ユーザへの通知が無い場合' do
+      before do
+        create(:invitation)
+      end
+
+      it '内容が正しいこと' do
+        is_expected.to eq 0
+      end
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
