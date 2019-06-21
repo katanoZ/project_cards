@@ -26,7 +26,8 @@ Rails.application.routes.draw do
     # 招待
     controller :invitations do
       get 'invite', action: :invite
-      resources :invitations, only: %i[index create]
+      get 'generate_invitaions', action: :generate_invitaions
+      resources :invitations, only: %i[create]
     end
   end
 
