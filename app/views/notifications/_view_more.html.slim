@@ -1,0 +1,3 @@
+- unless invitations.last_page?
+  .card-footer.text-center.bg-white
+    = link_to_next_page invitations, 'もっと見る', class: 'btn btn-lg btn-outline-secondary border-middle-purple text-middle-purple width-250px', remote: true

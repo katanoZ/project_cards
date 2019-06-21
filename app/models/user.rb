@@ -48,6 +48,10 @@ class User < ApplicationRecord
     project.invitations.exists?(user_id: id)
   end
 
+  def notifications_count
+    invitations.count
+  end
+
   # include RemoteFileAttachable
   def attachment_target
     image
