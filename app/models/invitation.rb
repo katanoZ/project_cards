@@ -6,4 +6,5 @@ class Invitation < ApplicationRecord
 
   validates :user, uniqueness: { scope: :project }
   validates :user, owner_rejection: true
+  validates :user, member_rejection: true
 end
