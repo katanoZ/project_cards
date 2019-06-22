@@ -29,6 +29,9 @@ Rails.application.routes.draw do
       get 'generate_invitaions', action: :generate_invitaions
       resources :invitations, only: %i[create]
     end
+
+    # 参加
+    resources :participations, only: %i[create]
   end
 
   # マイプロジェクト

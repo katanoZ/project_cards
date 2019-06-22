@@ -54,6 +54,14 @@ class User < ApplicationRecord
     invitations.count
   end
 
+  def participate_in(project)
+    participations.build(project: project).save
+  end
+
+  def member?(project)
+    participations.exists?(project_id: project.id)
+  end
+
   # include RemoteFileAttachable
   def attachment_target
     image

@@ -3,4 +3,4 @@
     .row.align-items-center.my-0.my-md-1
       .col #{invitation.project.owner.name}さんがあなたをプロジェクト「#{invitation.project.name}」に招待しています
       .col-auto
-        = link_to '参加', '#', class: 'btn btn-outline-secondary bg-light-purple text-middle-purple'
+        = link_to '参加', project_participations_path(invitation.project), method: :post, class: 'btn btn-outline-secondary bg-light-purple text-middle-purple'
