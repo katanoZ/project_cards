@@ -11,8 +11,9 @@
       .collapse.text-center id="js-collapse_#{project.id}"
         p.m-0
           = link_to 'プロジェクトを見る', project_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
-        p.m-0
-          = link_to 'プロジェクトの設定', edit_myproject_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
+        - if current_user.owner?(project)
+          p.m-0
+            = link_to 'プロジェクトの設定', edit_myproject_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
 
     - else
       .card.border-middle-purple.bg-white-purple.text-secondary-purple.height-150px
