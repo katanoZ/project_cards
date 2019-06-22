@@ -2,7 +2,7 @@ class Myprojects::ProjectsController < ApplicationController
   before_action :set_project, only: %i[edit update destroy]
 
   def index
-    @projects = Project.for_myprojects_list(current_user, params[:page])
+    @projects = Project.for_accessible_list(current_user, params[:page])
     respond_to do |format|
       format.html
       format.js { render 'projects/index' }
