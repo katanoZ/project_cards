@@ -267,6 +267,49 @@ RSpec.describe Project, type: :model do
     end
   end
 
+  describe '#accessible?' do
+    subject { project.accessible?(user) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがアクセス可能なプロジェクトの場合' do
+      context 'ユーザがプロジェクトのオーナーの場合' do
+        let(:project) { create(:project, owner: user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_truthy
+        end
+      end
+
+      context 'ユーザがプロジェクトのメンバーの場合' do
+        let(:project) { create(:project) }
+        before { user.participate_in(project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_truthy
+        end
+      end
+    end
+
+    context 'ユーザがアクセス不可能なプロジェクトの場合' do
+      context 'ユーザが招待されているプロジェクトの場合' do
+        let(:project) { create(:project) }
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsy
+        end
+      end
+
+      context 'ユーザが無関係のプロジェクトの場合' do
+        let(:project) { create(:project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsy
+        end
+      end
+    end
+  end
+
   describe '#invite' do
     let(:user) { create(:user) }
     let(:project) { create(:project) }
