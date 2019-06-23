@@ -186,6 +186,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#participate_in' do
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+
+    it '結果が正しいこと' do
+      expect(user.participate_in(project)).to be_truthy
+    end
+
+    it '内容が正しいこと' do
+      expect { user.participate_in(project) }
+        .to change { user.participations.count }.from(0).to(1)
+      expect(user.participations.first.user).to eq user
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
