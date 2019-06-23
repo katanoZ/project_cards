@@ -153,9 +153,119 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  # TODO: ユーザ招待機能を作成後にaccessible実装してテストも作成すること
-  describe '.accessible'
-  describe '#accessible?'
+  describe '.accessible' do
+    let(:results) { Project.accessible(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      context 'ユーザがプロジェクトのオーナーの場合' do
+        before { create(:project, owner: user) }
+
+        it '件数が正しいこと' do
+          expect(results.count).to eq 1
+        end
+
+        it '内容が正しいこと' do
+          expect(user.owner?(results.first)).to be_truthy
+        end
+      end
+
+      context 'ユーザがプロジェクトのメンバーの場合' do
+        before do
+          project = create(:project)
+          user.participate_in(project)
+        end
+
+        it '件数が正しいこと' do
+          expect(results.count).to eq 1
+        end
+
+        it '内容が正しいこと' do
+          expect(user.member?(results.first)).to be_truthy
+        end
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
+  describe '.owned_by' do
+    let(:results) { Project.owned_by(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      before { create(:project, owner: user) }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(user.owner?(results.first)).to be_truthy
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+        # 参加プロジェクト
+        create(:participation, user: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
+  describe '.participated_in_by' do
+    let(:results) { Project.participated_in_by(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      before do
+        project = create(:project)
+        user.participate_in(project)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(user.member?(results.first)).to be_truthy
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+        # オーナーのプロジェクト
+        create(:project, owner: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
 
   describe '#invite' do
     let(:user) { create(:user) }
