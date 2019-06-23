@@ -201,6 +201,47 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#member?' do
+    subject { user.member?(project) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがプロジェクトのメンバーの場合' do
+      let(:project) { create(:project) }
+      before { user.participate_in(project) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトのメンバーではない場合' do
+      context 'ユーザがプロジェクトオーナーの場合' do
+        let(:project) { create(:project, owner: user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトに招待されている場合' do
+        let(:project) { create(:project) }
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトと無関係の場合' do
+        let(:project) { create(:project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+    end
+  end
+
   # include RemoteFileAttachable
   it_behaves_like 'remote_file_attachable'
 end
