@@ -324,4 +324,47 @@ RSpec.describe Project, type: :model do
       expect(project.invitations.first.user).to eq user
     end
   end
+
+  describe '#accessible_users' do
+    let(:results) { project.accessible_users }
+    let(:project) { create(:project) }
+
+    context 'プロジェクトにオーナーだけがいる場合' do
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+      end
+    end
+
+    context 'プロジェクトにメンバーがいる場合' do
+      let(:members) { create_list(:user, 2) }
+      before { members.each { |m| m.participate_in(project) } }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 3
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+        expect(results).to include(*members)
+      end
+    end
+
+    context '該当しないユーザがいる場合' do
+      let!(:invitee) { create(:user) }
+      let!(:outsider) { create(:user) }
+      before { project.invite(invitee) }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+      end
+    end
+  end
 end
