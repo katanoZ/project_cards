@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   # 全プロジェクト
   resources :projects, only: %i[index show] do
+    get 'info', to: 'projects#info'
     resources :columns, only: %i[new create edit update destroy] do
       get 'previous', on: :member
       get 'next', on: :member
