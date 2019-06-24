@@ -118,10 +118,6 @@ RSpec.describe Project, type: :model do
       context 'pageがnilの場合' do
         let(:results) { Project.for_accessible_list_second_page_or_later(user, nil) }
 
-        it '件数が正しいこと' do
-          expect(results.count).to eq 0
-        end
-
         it '内容が正しいこと' do
           expect(results).to eq []
         end
@@ -130,10 +126,6 @@ RSpec.describe Project, type: :model do
       context "pageが'1'（文字）の場合" do
         let(:results) { Project.for_accessible_list_second_page_or_later(user, '1') }
 
-        it '件数が正しいこと' do
-          expect(results.count).to eq 0
-        end
-
         it '内容が正しいこと' do
           expect(results).to eq []
         end
@@ -141,10 +133,6 @@ RSpec.describe Project, type: :model do
 
       context 'pageが1（数値）の場合' do
         let(:results) { Project.for_accessible_list_second_page_or_later(user, 1) }
-
-        it '件数が正しいこと' do
-          expect(results.count).to eq 0
-        end
 
         it '内容が正しいこと' do
           expect(results).to eq []
