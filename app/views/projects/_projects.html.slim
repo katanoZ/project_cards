@@ -1,7 +1,7 @@
 - projects.each do |project|
   .col-12.col-sm-6.col-lg-4.mt-4
 
-    - if project.accessible?(current_user)
+    - if current_user.owner?(project)
       a.link-unstyled data-toggle='collapse' href="#js-collapse_#{project.id}" role='button' aria-expanded='false' aria-controls="js-collapse_#{project.id}"
         .card.btn.btn-outline-secondary.border-middle-purple.bg-light-purple.text-purple.button-text-wrap.height-150px
           .card-body.overflow-scroll
@@ -11,8 +11,16 @@
       .collapse.text-center id="js-collapse_#{project.id}"
         p.m-0
           = link_to 'プロジェクトを見る', project_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
-        p.m-0
-          = link_to 'プロジェクトの設定', edit_myproject_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
+        - if current_user.owner?(project)
+          p.m-0
+            = link_to 'プロジェクトの設定', edit_myproject_path(project), class: 'btn btn-lg btn-outline-secondary border-middle-purple bg-light-purple text-purple mt-2'
+
+    - elsif current_user.member?(project)
+      = link_to project_path(project), class: 'link-unstyled' do
+        .card.btn.btn-outline-secondary.border-middle-purple.bg-light-purple.text-purple.button-text-wrap.height-150px
+          .card-body.overflow-scroll
+            .card-text.h4.mt-4
+              = project.name
 
     - else
       .card.border-middle-purple.bg-white-purple.text-secondary-purple.height-150px

@@ -7,6 +7,8 @@ class User < ApplicationRecord
                             dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :invitation_projects, through: :invitations, source: :project
+  has_many :participations, dependent: :destroy
+  has_many :member_projects, through: :participations, source: :project
 
   has_one_attached :image
 
@@ -50,6 +52,14 @@ class User < ApplicationRecord
 
   def notifications_count
     invitations.count
+  end
+
+  def participate_in(project)
+    participations.build(project: project).save
+  end
+
+  def member?(project)
+    participations.exists?(project_id: project.id)
   end
 
   # include RemoteFileAttachable

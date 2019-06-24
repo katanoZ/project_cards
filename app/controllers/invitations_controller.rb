@@ -5,7 +5,7 @@ class InvitationsController < ApplicationController
     @invitation_form = InvitationForm.new
   end
 
-  def index
+  def generate_invitaions
     @invitation_form = InvitationForm.new(invitation_params)
     @users = @invitation_form.search if @invitation_form.valid?
     render :invite

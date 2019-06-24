@@ -13,5 +13,8 @@
         - elsif user.invited?(project)
           .col-auto.width-120px.text-middle-purple.text-center.ml-1.mt-1.mt-sm-0 招待済み
 
+        - elsif user.member?(project)
+          .col-auto.width-120px.text-middle-purple.text-center.ml-1.mt-1.mt-sm-0 参加済み
+
         - else
           = link_to '招待', project_invitations_path(project, { user_id: user.id }), method: :post, class: 'col-auto btn btn-lg btn-outline-secondary border-middle-purple text-middle-purple width-120px ml-1 mt-1 mt-sm-0'

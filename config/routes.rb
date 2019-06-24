@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   # 全プロジェクト
   resources :projects, only: %i[index show] do
+    get 'info', to: 'projects#info'
     resources :columns, only: %i[new create edit update destroy] do
       get 'previous', on: :member
       get 'next', on: :member
@@ -26,8 +27,12 @@ Rails.application.routes.draw do
     # 招待
     controller :invitations do
       get 'invite', action: :invite
-      resources :invitations, only: %i[index create]
+      get 'generate_invitaions', action: :generate_invitaions
+      resources :invitations, only: %i[create]
     end
+
+    # 参加
+    resources :participations, only: %i[create]
   end
 
   # マイプロジェクト

@@ -118,7 +118,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'owner?' do
+  describe '#owner?' do
     subject { user.owner?(project) }
     let(:user) { create(:user) }
 
@@ -133,8 +133,26 @@ RSpec.describe User, type: :model do
     context 'ユーザがプロジェクトのオーナーでない場合' do
       let(:project) { create(:project) }
 
-      it '結果が正しいこと' do
-        is_expected.to be_falsey
+      context 'ユーザがプロジェクトに招待されている場合' do
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトのメンバーの場合' do
+        before { user.participate_in(project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトと無関係の場合' do
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
       end
     end
   end
@@ -142,12 +160,10 @@ RSpec.describe User, type: :model do
   describe '#invited?' do
     subject { user.invited?(project) }
     let(:user) { create(:user) }
-    let(:project) { create(:project) }
 
     context 'ユーザがプロジェクトに招待されている場合' do
-      before do
-        project.invite(user)
-      end
+      let(:project) { create(:project) }
+      before { project.invite(user) }
 
       it '結果が正しいこと' do
         is_expected.to be_truthy
@@ -155,8 +171,28 @@ RSpec.describe User, type: :model do
     end
 
     context 'ユーザがプロジェクトに招待されていない場合' do
-      it '結果が正しいこと' do
-        is_expected.to be_falsey
+      context 'ユーザがプロジェクトのオーナーの場合' do
+        let(:project) { create(:project, owner: user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+      context 'ユーザがプロジェクトに参加している場合' do
+        let(:project) { create(:project) }
+        before { user.participate_in(project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトと無関係の場合' do
+        let(:project) { create(:project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
       end
     end
   end
@@ -182,6 +218,62 @@ RSpec.describe User, type: :model do
 
       it '内容が正しいこと' do
         is_expected.to eq 0
+      end
+    end
+  end
+
+  describe '#participate_in' do
+    let(:user) { create(:user) }
+    let(:project) { create(:project) }
+
+    it '結果が正しいこと' do
+      expect(user.participate_in(project)).to be_truthy
+    end
+
+    it '内容が正しいこと' do
+      expect { user.participate_in(project) }
+        .to change { user.participations.count }.from(0).to(1)
+      expect(user.participations.first.user).to eq user
+    end
+  end
+
+  describe '#member?' do
+    subject { user.member?(project) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがプロジェクトのメンバーの場合' do
+      let(:project) { create(:project) }
+      before { user.participate_in(project) }
+
+      it '結果が正しいこと' do
+        is_expected.to be_truthy
+      end
+    end
+
+    context 'ユーザがプロジェクトのメンバーではない場合' do
+      context 'ユーザがプロジェクトオーナーの場合' do
+        let(:project) { create(:project, owner: user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトに招待されている場合' do
+        let(:project) { create(:project) }
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
+      end
+
+      context 'ユーザがプロジェクトと無関係の場合' do
+        let(:project) { create(:project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsey
+        end
       end
     end
   end

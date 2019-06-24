@@ -1,13 +1,20 @@
 .row
-  .col-md-7.col-lg-8.col-xl-9.overflow-scroll
+  .col-xl-7.overflow-scroll
     .h4.text-middle-purple = @project.name
 
-  .col-md-5.col-lg-4.col-xl-3.text-right.pr-3
-    = link_to 'ログを見る', '#', class: 'btn btn-outline-secondary border-middle-purple text-middle-purple mr-2'
+  .col-xl-5.text-right
+    = link_to project_info_path(@project), class: 'btn btn-outline-secondary border-middle-purple text-middle-purple mr-1 width-100px' do
+      i.fas.fa-info-circle.fa-lg.mr-1
+      |情報
+    = link_to '#', class: 'btn btn-outline-secondary border-middle-purple text-middle-purple mr-1 width-100px' do
+      i.far.fa-file-alt.fa-lg.mr-1
+      |ログ
     - if current_user.owner?(@project)
-      = link_to 'ユーザを招待', project_invite_path(@project), class: 'btn btn-outline-secondary border-middle-purple text-middle-purple'
+      = link_to project_invite_path(@project), class: 'btn btn-outline-secondary border-middle-purple text-middle-purple width-100px' do
+        i.fas.fa-user-friends.fa-lg.mr-1
+        |招待
 
-.row.mt-4.text-middle-purple.row-scroll-x.w-100.pb-2
+.row.mt-5.text-middle-purple.row-scroll-x.w-100.pb-2
 
   - @project.columns.each do |column|
     = render 'column', project: @project, column: column

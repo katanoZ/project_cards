@@ -84,4 +84,61 @@ RSpec.describe Card, type: :model do
       end
     end
   end
+
+  describe '#verify_assignee' do
+    let(:column) { create(:column) }
+    let(:project) { column.project }
+
+    context '担当者に指定できる場合' do
+      context 'プロジェクトのオーナーを担当者にする場合' do
+        let(:owner) { project.owner }
+        let(:card) { build(:card, project: project, column: column, assignee: owner) }
+
+        it '結果が正しいこと' do
+          expect(card).to be_valid
+        end
+      end
+
+      context 'プロジェクトのメンバーを担当者にする場合' do
+        let(:user) { create(:user) }
+        let(:card) { build(:card, project: project, column: column, assignee: user) }
+        before { user.participate_in(project) }
+
+        it '結果が正しいこと' do
+          expect(card).to be_valid
+        end
+      end
+    end
+
+    context '担当者に指定できない場合' do
+      let(:user) { create(:user) }
+
+      context 'プロジェクトの招待者を担当者にする場合' do
+        let(:card) { build(:card, project: project, column: column, assignee: user) }
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          expect(card).to be_invalid
+        end
+
+        it 'エラーメッセージが正しいこと' do
+          card.validate
+          expect(card.errors[:assignee]).to eq ['は不正な値です']
+        end
+      end
+
+      context 'プロジェクトと無関係のユーザを担当者にする場合' do
+        let(:card) { build(:card, project: project, column: column, assignee: user) }
+
+        it '結果が正しいこと' do
+          expect(card).to be_invalid
+        end
+
+        it 'エラーメッセージが正しいこと' do
+          card.validate
+          expect(card.errors[:assignee]).to eq ['は不正な値です']
+        end
+      end
+    end
+  end
 end

@@ -29,42 +29,41 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  describe '.for_myprojects_list' do
+  describe '.for_accessible_list' do
     let(:user) { create(:user) }
 
     before do
-      allow(Project).to receive(:for_myprojects_first_page)
-      allow(Project).to receive(:for_myprojects_second_page_or_later)
+      allow(Project).to receive(:for_accessible_list_first_page)
+      allow(Project).to receive(:for_accessible_list_second_page_or_later)
     end
 
     context '1ページ目の場合' do
-      it '.for_myprojects_first_pageを呼び出すこと' do
-        Project.for_myprojects_list(user, nil)
-        expect(Project).to have_received(:for_myprojects_first_page).once
-        expect(Project).not_to have_received(:for_myprojects_second_page_or_later)
+      it '.for_accessible_list_first_pageを呼び出すこと' do
+        Project.for_accessible_list(user, nil)
+        expect(Project).to have_received(:for_accessible_list_first_page).once
+        expect(Project).not_to have_received(:for_accessible_list_second_page_or_later)
       end
     end
 
     context '2ページ目以降の場合' do
-      it '.for_myprojects_second_page_or_laterを呼び出すこと' do
-        Project.for_myprojects_list(user, 2)
-        expect(Project).to have_received(:for_myprojects_second_page_or_later).once
-        expect(Project).not_to have_received(:for_myprojects_first_page)
+      it '.for_accessible_list_second_page_or_laterを呼び出すこと' do
+        Project.for_accessible_list(user, 2)
+        expect(Project).to have_received(:for_accessible_list_second_page_or_later).once
+        expect(Project).not_to have_received(:for_accessible_list_first_page)
       end
     end
   end
 
-  describe '.for_myprojects_first_page' do
+  describe '.for_accessible_list_first_page' do
     let(:user) { create(:user) }
-    let(:results) { Project.for_myprojects_first_page(user) }
+    let(:results) { Project.for_accessible_list_first_page(user) }
 
     context '該当のデータが存在する場合' do
       before do
         (1..3).each { |n| create(:project, name: "Project_#{n}", owner: user) }
-        create(:project)
       end
 
-      it '結果が正しいこと' do
+      it '件数が正しいこと' do
         expect(results.count).to eq 3
       end
 
@@ -74,28 +73,25 @@ RSpec.describe Project, type: :model do
     end
 
     context '該当のデータが存在しない場合' do
-      before do
-        create(:project)
-      end
+      before { create(:project) }
 
-      it '結果が正しいこと' do
+      it '件数が正しいこと' do
         expect(results.count).to eq 0
       end
     end
   end
 
-  describe '.for_myprojects_second_page_or_later' do
+  describe '.for_accessible_list_second_page_or_later' do
     let(:user) { create(:user) }
 
     context '該当のデータが存在する場合' do
-      let(:results) { Project.for_myprojects_second_page_or_later(user, 2) }
+      let(:results) { Project.for_accessible_list_second_page_or_later(user, 2) }
 
       before do
         (1..12).each { |n| create(:project, name: "Project_#{n}", owner: user) }
-        create_list(:project, 2)
       end
 
-      it '結果が正しいこと' do
+      it '件数が正しいこと' do
         # 該当が全12件、1ページあたり9件だがpaddingが-1なので、1ページ目8件で2ページ目は4件
         expect(results.count).to eq 4
       end
@@ -107,28 +103,20 @@ RSpec.describe Project, type: :model do
     end
 
     context '該当のデータが存在しない場合' do
-      let(:results) { Project.for_myprojects_second_page_or_later(user, 2) }
+      let(:results) { Project.for_accessible_list_second_page_or_later(user, 2) }
 
-      before do
-        create_list(:project, 12)
-      end
+      before { create_list(:project, 12) }
 
-      it '結果が正しいこと' do
+      it '件数が正しいこと' do
         expect(results.count).to eq 0
       end
     end
 
     context '1ページ目が指定された場合' do
-      before do
-        create_list(:project, 12, owner: user)
-      end
+      before { create_list(:project, 12, owner: user) }
 
       context 'pageがnilの場合' do
-        let(:results) { Project.for_myprojects_second_page_or_later(user, nil) }
-
-        it '結果が正しいこと' do
-          expect(results.count).to eq 0
-        end
+        let(:results) { Project.for_accessible_list_second_page_or_later(user, nil) }
 
         it '内容が正しいこと' do
           expect(results).to eq []
@@ -136,11 +124,7 @@ RSpec.describe Project, type: :model do
       end
 
       context "pageが'1'（文字）の場合" do
-        let(:results) { Project.for_myprojects_second_page_or_later(user, '1') }
-
-        it '結果が正しいこと' do
-          expect(results.count).to eq 0
-        end
+        let(:results) { Project.for_accessible_list_second_page_or_later(user, '1') }
 
         it '内容が正しいこと' do
           expect(results).to eq []
@@ -148,11 +132,7 @@ RSpec.describe Project, type: :model do
       end
 
       context 'pageが1（数値）の場合' do
-        let(:results) { Project.for_myprojects_second_page_or_later(user, 1) }
-
-        it '結果が正しいこと' do
-          expect(results.count).to eq 0
-        end
+        let(:results) { Project.for_accessible_list_second_page_or_later(user, 1) }
 
         it '内容が正しいこと' do
           expect(results).to eq []
@@ -161,9 +141,162 @@ RSpec.describe Project, type: :model do
     end
   end
 
-  # TODO: ユーザ招待機能を作成後にaccessible実装してテストも作成すること
-  describe '.accessible'
-  describe '#accessible?'
+  describe '.accessible' do
+    let(:results) { Project.accessible(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      context 'ユーザがプロジェクトのオーナーの場合' do
+        before { create(:project, owner: user) }
+
+        it '件数が正しいこと' do
+          expect(results.count).to eq 1
+        end
+
+        it '内容が正しいこと' do
+          expect(user.owner?(results.first)).to be_truthy
+        end
+      end
+
+      context 'ユーザがプロジェクトのメンバーの場合' do
+        before do
+          project = create(:project)
+          user.participate_in(project)
+        end
+
+        it '件数が正しいこと' do
+          expect(results.count).to eq 1
+        end
+
+        it '内容が正しいこと' do
+          expect(user.member?(results.first)).to be_truthy
+        end
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
+  describe '.owned_by' do
+    let(:results) { Project.owned_by(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      before { create(:project, owner: user) }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(user.owner?(results.first)).to be_truthy
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+        # 参加プロジェクト
+        create(:participation, user: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
+  describe '.participated_in_by' do
+    let(:results) { Project.participated_in_by(user) }
+    let(:user) { create(:user) }
+
+    context '該当のデータが存在する場合' do
+      before do
+        project = create(:project)
+        user.participate_in(project)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(user.member?(results.first)).to be_truthy
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before do
+        # 無関係のプロジェクト
+        create(:project)
+        # 招待プロジェクト
+        create(:invitation, user: user)
+        # オーナーのプロジェクト
+        create(:project, owner: user)
+      end
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 0
+      end
+    end
+  end
+
+  describe '#accessible?' do
+    subject { project.accessible?(user) }
+    let(:user) { create(:user) }
+
+    context 'ユーザがアクセス可能なプロジェクトの場合' do
+      context 'ユーザがプロジェクトのオーナーの場合' do
+        let(:project) { create(:project, owner: user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_truthy
+        end
+      end
+
+      context 'ユーザがプロジェクトのメンバーの場合' do
+        let(:project) { create(:project) }
+        before { user.participate_in(project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_truthy
+        end
+      end
+    end
+
+    context 'ユーザがアクセス不可能なプロジェクトの場合' do
+      context 'ユーザが招待されているプロジェクトの場合' do
+        let(:project) { create(:project) }
+        before { project.invite(user) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsy
+        end
+      end
+
+      context 'ユーザが無関係のプロジェクトの場合' do
+        let(:project) { create(:project) }
+
+        it '結果が正しいこと' do
+          is_expected.to be_falsy
+        end
+      end
+    end
+  end
 
   describe '#invite' do
     let(:user) { create(:user) }
@@ -177,6 +310,49 @@ RSpec.describe Project, type: :model do
       expect { project.invite(user) }
         .to change { project.invitations.count }.from(0).to(1)
       expect(project.invitations.first.user).to eq user
+    end
+  end
+
+  describe '#accessible_users' do
+    let(:results) { project.accessible_users }
+    let(:project) { create(:project) }
+
+    context 'プロジェクトにオーナーだけがいる場合' do
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+      end
+    end
+
+    context 'プロジェクトにメンバーがいる場合' do
+      let(:members) { create_list(:user, 2) }
+      before { members.each { |m| m.participate_in(project) } }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 3
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+        expect(results).to include(*members)
+      end
+    end
+
+    context '該当しないユーザがいる場合' do
+      let!(:invitee) { create(:user) }
+      let!(:outsider) { create(:user) }
+      before { project.invite(invitee) }
+
+      it '件数が正しいこと' do
+        expect(results.count).to eq 1
+      end
+
+      it '内容が正しいこと' do
+        expect(results.first).to eq project.owner
+      end
     end
   end
 end
