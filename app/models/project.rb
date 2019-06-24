@@ -62,4 +62,8 @@ class Project < ApplicationRecord
   def invite(user)
     invitations.build(user: user).save
   end
+
+  def accessible_users
+    [owner] + members
+  end
 end

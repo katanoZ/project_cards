@@ -8,6 +8,7 @@ class Card < ApplicationRecord
   validates :name, presence: true,
                    uniqueness: { scope: :project },
                    length: { maximum: 40 }
+  validate :verify_assignee
 
   def move_to_higher_column
     return false if column.first?
@@ -21,5 +22,14 @@ class Card < ApplicationRecord
 
     self.column = column.lower_item
     save
+  end
+
+  private
+
+  def verify_assignee
+    return if project.owner_id == assignee_id
+    return if project.members.exists?(assignee_id)
+
+    errors.add(:assignee, I18n.t('errors.messages.invalid'))
   end
 end
