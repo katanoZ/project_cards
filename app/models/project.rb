@@ -5,6 +5,7 @@ class Project < ApplicationRecord
   has_many :invitees, through: :invitations, source: :user
   has_many :participations, dependent: :destroy
   has_many :members, through: :participations, source: :user
+  has_many :logs, dependent: :destroy
   belongs_to :owner, class_name: 'User', foreign_key: :owner_id
 
   # プロジェクト一覧で1ページに表示するプロジェクトの個数
