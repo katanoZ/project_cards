@@ -12,6 +12,11 @@ class Card < ApplicationRecord
                    length: { maximum: 40 }
   validate :verify_assignee
 
+  after_create CardCreateLogsCallbacks.new
+  after_save CardSaveLogsCallbacks.new
+  after_update CardUpdateLogsCallbacks.new
+  after_destroy CardDestroyLogsCallbacks.new
+
   def move_to_higher_column
     return false if column.first?
 
