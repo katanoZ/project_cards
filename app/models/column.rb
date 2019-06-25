@@ -4,6 +4,8 @@ class Column < ApplicationRecord
 
   acts_as_list scope: :project
 
+  attr_accessor :operator
+
   validates :name, presence: true,
                    uniqueness: { scope: :project },
                    length: { maximum: 40 }

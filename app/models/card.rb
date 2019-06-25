@@ -5,6 +5,8 @@ class Card < ApplicationRecord
 
   acts_as_list scope: %i[project_id column_id]
 
+  attr_accessor :operator
+
   validates :name, presence: true,
                    uniqueness: { scope: :project },
                    length: { maximum: 40 }
