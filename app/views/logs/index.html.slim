@@ -1,0 +1,23 @@
+.row
+  .col-12.col-md-10.mx-auto.mt-4
+    .card.border-middle-purple.text-purple
+      .card-header.h3.bg-light-purple.pl-md-5 #{@project.name}プロジェクト ログ
+
+      - if @logs.empty?
+        .card-body.pl-md-5
+          .card-text.h4 ログはありません
+
+      - else
+        ul.list-group.text-middle-purple.h4
+          #js-logs
+            = render 'logs', logs: @logs
+
+        #js-view_more
+          = render 'view_more', logs: @logs
+
+.row
+  .col-12.col-md-10.mx-auto.mt-5.h5
+    = link_to project_path(@project), class: 'text-middle-purple link-unstyled float-right' do
+      i.fas.fa-link.mr-1
+      |プロジェクトに戻る
+

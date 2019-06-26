@@ -1,0 +1,9 @@
+<%# ログ一覧に新しいログを追加 %>
+var logs = document.getElementById('js-logs');
+var newLogs = "<%= j(render 'logs', logs: @logs) %>";
+logs.insertAdjacentHTML('beforeend', newLogs);
+
+<%# 「もっと見る」ボタンを書き換え %>
+var viewMore = document.getElementById('js-view_more');
+var newViewMore = "<%= j(render 'view_more', logs: @logs) %>";
+viewMore.innerHTML = newViewMore;
