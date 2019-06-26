@@ -6,6 +6,7 @@ class Participation < ApplicationRecord
   validates :user, owner_rejection: true
 
   before_create :destroy_invitation!, if: :invited?
+  after_create ParticipationCreateLogsCallbacks.new
 
   def invited?
     user.invited?(project)
