@@ -14,7 +14,6 @@ Rails.application.routes.draw do
 
   # 全プロジェクト
   resources :projects, only: %i[index show] do
-    get 'info', to: 'projects#info'
     resources :columns, only: %i[new create edit update destroy] do
       get 'previous', on: :member
       get 'next', on: :member
@@ -33,6 +32,12 @@ Rails.application.routes.draw do
 
     # 参加
     resources :participations, only: %i[create]
+
+    # 情報
+    get 'info', to: 'projects#info'
+
+    # ログ
+    resources :logs, only: %i[index]
   end
 
   # マイプロジェクト

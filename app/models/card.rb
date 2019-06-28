@@ -5,10 +5,17 @@ class Card < ApplicationRecord
 
   acts_as_list scope: %i[project_id column_id]
 
+  attr_accessor :operator
+
   validates :name, presence: true,
                    uniqueness: { scope: :project },
                    length: { maximum: 40 }
   validate :verify_assignee
+
+  after_create CardCreateLogsCallbacks.new
+  after_save CardSaveLogsCallbacks.new
+  after_update CardUpdateLogsCallbacks.new
+  after_destroy CardDestroyLogsCallbacks.new
 
   def move_to_higher_column
     return false if column.first?
