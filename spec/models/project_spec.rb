@@ -355,4 +355,87 @@ RSpec.describe Project, type: :model do
       end
     end
   end
+
+  describe '#set_owner!' do
+    let(:project) { create(:project) }
+    let(:new_owner) { create(:user) }
+    before { allow(project).to receive(:remove_member!) }
+
+    context '指定する新しいオーナーがメンバーの中にいる場合' do
+      before { new_owner.participate_in(project) }
+
+      it '結果が正しいこと' do
+        expect(project.set_owner!(new_owner)).to be_truthy
+        expect(project).to have_received(:remove_member!)
+      end
+
+      it '内容が正しいこと' do
+        project.set_owner!(new_owner)
+        expect(project.owner).to eq new_owner
+      end
+    end
+
+    context '指定する新しいオーナーがメンバーの中にいない場合' do
+      it '結果が正しいこと' do
+        expect { project.set_owner!(new_owner) }
+          .to raise_error 'new_owner is not in members'
+
+        expect(project).not_to have_received(:remove_member!)
+        expect(project.owner).not_to eq new_owner
+      end
+    end
+  end
+
+  describe '#remove_member!' do
+    let(:project) { create(:project) }
+    let(:member) { create(:user) }
+
+    context '指定するメンバーがプロジェクトメンバーの中にいる場合' do
+      before { member.participate_in(project) }
+
+      it '結果が正しいこと' do
+        expect(project.remove_member!(member)).to be_truthy
+      end
+
+      it '内容が正しいこと' do
+        project.remove_member!(member)
+        expect(member.member?(project)).to be_falsy
+      end
+    end
+
+    context '指定するメンバーがプロジェクトメンバーの中にいない場合' do
+      it '結果が正しいこと' do
+        expect { project.remove_member!(member) }
+          .to raise_error ActiveRecord::RecordNotFound
+
+        expect(member.member?(project)).to be_falsy
+      end
+    end
+  end
+
+  describe '#oldest_member' do
+    subject { project.oldest_member }
+    let(:project) { create(:project) }
+
+    context '該当のデータが存在する場合' do
+      let(:user) { create(:user) }
+
+      before do
+        user.participate_in(project)
+        create_list(:participation, 3, project: project)
+      end
+
+      it '内容が正しいこと' do
+        is_expected.to eq user
+      end
+    end
+
+    context '該当のデータが存在しない場合' do
+      before { create_list(:user, 3) }
+
+      it '内容が正しいこと' do
+        is_expected.to eq nil
+      end
+    end
+  end
 end
