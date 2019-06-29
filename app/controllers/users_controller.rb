@@ -16,7 +16,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy!
+    manager = DeregistrationManager.new(@user)
+    manager.destroy_user!
     reset_session
     redirect_to login_path, notice: '退会が完了しました。ユーザーを削除しました。'
   end
