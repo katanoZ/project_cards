@@ -4,7 +4,8 @@
   -else
     - users.each do |user|
       .row.mt-4.align-items-center
-        .col-auto = image_tag user.image, class: 'size35x35 rounded-circle'
+        - if user.image.attached?
+          .col-auto = image_tag user.image, class: 'size35x35 rounded-circle'
         .col-5.col-md-4.col-lg-3.px-0.h4.mb-0 = user.name
 
         - if user.owner?(project)

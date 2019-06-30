@@ -18,5 +18,6 @@
     .row.mt-2
       .col.text-right
         span.mr-1.align-bottom = card.due_date_text
-          
-        = image_tag card.assignee.image, class: 'size35x35 rounded-circle'
+
+        - if card.assignee.image.attached?  
+          = image_tag card.assignee.image, class: 'size35x35 rounded-circle'

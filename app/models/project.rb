@@ -67,4 +67,19 @@ class Project < ApplicationRecord
   def accessible_users
     [owner] + members
   end
+
+  def set_owner!(new_owner)
+    raise 'new_owner is not in members' unless members.exists?(new_owner.id)
+
+    remove_member!(new_owner)
+    update!(owner: new_owner)
+  end
+
+  def remove_member!(member)
+    participations.find_by!(user: member).destroy!
+  end
+
+  def oldest_member
+    members.order(created_at: :asc).first
+  end
 end
