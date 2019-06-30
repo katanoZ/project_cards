@@ -15,9 +15,10 @@ header.header
             li.nav-item
               h5.my-0.my-sm-1
                 = link_to current_user.notifications_count, notifications_path, class: 'badge badge-light'
-            li.nav-item.mt-2.mt-sm-0.ml-0.ml-sm-1.ml-md-3
-              = link_to mypage_path do
-                = image_tag current_user.image, class: 'size35x35 rounded-circle'
+            - if current_user.image.attached?
+              li.nav-item.mt-2.mt-sm-0.ml-0.ml-sm-1.ml-md-3
+                = link_to mypage_path do
+                  = image_tag current_user.image, class: 'size35x35 rounded-circle'
           - else
             li.nav-item
               = link_to 'ログイン', login_path, class: 'btn btn-outline-light'
