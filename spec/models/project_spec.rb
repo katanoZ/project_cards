@@ -6,7 +6,7 @@ RSpec.describe Project, type: :model do
       let(:results) { Project.for_full_list(2) }
 
       before do
-        (1..12).each { |n| create(:project, name: "Project_#{n}") }
+        1.upto(12) { |n| create(:project, name: "Project_#{n}") }
       end
 
       it '件数が正しいこと' do
@@ -60,7 +60,7 @@ RSpec.describe Project, type: :model do
 
     context '該当のデータが存在する場合' do
       before do
-        (1..3).each { |n| create(:project, name: "Project_#{n}", owner: user) }
+        1.upto(3) { |n| create(:project, name: "Project_#{n}", owner: user) }
       end
 
       it '件数が正しいこと' do
@@ -88,7 +88,7 @@ RSpec.describe Project, type: :model do
       let(:results) { Project.for_accessible_list_second_page_or_later(user, 2) }
 
       before do
-        (1..12).each { |n| create(:project, name: "Project_#{n}", owner: user) }
+        1.upto(12) { |n| create(:project, name: "Project_#{n}", owner: user) }
       end
 
       it '件数が正しいこと' do
