@@ -51,7 +51,7 @@ Ruby/Rails実務経験約1年の私が、Ruby/Railsで書くコードを具体�
 * カラム、カードの移動機能
 * ユーザ検索、招待、参加、お知らせ機能
 * ログ機能
-* 定期処理（1日1回ログを作成）
+* 定期処理（1日1回、期日に関するログを生成）
 * 退会処理
 
 ## 権限について 
@@ -72,44 +72,45 @@ Ruby/Rails実務経験約1年の私が、Ruby/Railsで書くコードを具体�
 退会するユーザがオーナーをしているプロジェクトがある場合、そのプロジェクトに参加者がいれば、一番古い参加者が代わってプロジェクトのオーナーになります。プロジェクトに参加者がいない場合は、プロジェクトは削除されます。
 
 ## コードの設計について
-**モデルのロジック共通化について**  
+### モデルのロジック共通化について
 モデルの主要な目的ではない処理で複数のモデルで汎用的に使えるロジックについては、`app/models/concerns` に置いて共通化しています。  
-リモートの画像をモデルに添付処理するモジュール <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/models/concerns/remote_file_attachable.rb">RemoteFileAttachable</a> を共通処理として作成しました。 共通化のため、各モデルで `#attachment_target` メソッドをオーバーライドしてモデルと添付ファイルとを紐付けるよう強制しています。（テンプレートメソッドパターン）
+リモートの画像をモデルに添付処理するモジュール <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/models/concerns/remote_file_attachable.rb">RemoteFileAttachable</a> を共通処理として作成しました。モジュールの `#attachment_target` メソッドでモデルと添付ファイルとを紐付けします。モジュールをincludeするモデル側
+で `#attachment_target` メソッドをオーバーライドするよう強制しています。（テンプレートメソッドパターン）
 
-**サービスクラス**  
+### サービスクラス
 ユーザ退会時の処理として、`Users` コントローラの `#destroy` アクションから、サービスクラス <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/services/deregistration_manager.rb">DeregistrationManager</a> を呼び出して処理を実行しています。  
 オーナー交代やログ出力などの「退会処理」というユースケースの処理を一括してクラス内で扱うこと、複数モデルに対する処理を一括して扱うことを意図しています。
 
-**フォームクラス**  
+### フォームクラス
 プロジェクトで他のユーザを検索して招待するフォームで、フォームクラス<a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/forms/invitation_form.rb"> InvitationForm
  </a>を使用しています。  
 モデルと紐付かないフォームでユーザ入力項目のバリデーションを行うこと、フォームで使用する検索機能をフォームクラスを使って呼び出すことを意図しています。
 
-**権限の管理**  
+### 権限の管理
 「権限について」項目で記述したように、プロジェクトに対してユーザがアクセスできる範囲を管理しています。  
 gemを使って管理するやり方ではなく、コントローラでモデルのインスタンスを生成する際に生成できる範囲を制限しています。例えば <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/controllers/cards_controller.rb">CardsController</a> の `#set_project` では `.accessible` スコープを通してプロジェクトのインスタンスを取得しています。  
 ```
 @project = Project.accessible(current_user).find(params[:project_id])
 ```
-上記によって、`current_user` のアクセス権がない場合は `#find` で例外が発生して、`404 Not Found` エラーとして処理されるようにしています。  
+上記によって、ブラウザのURL直接入力など通常範囲外のアクセスで実行ユーザのアクセス権がない場合は、`#find` で例外が発生して `404 Not Found` エラーとして処理されるようにしています。  
 （`403 Forbidden` エラーとして処理される方が意味的に正しいかもしれないですが、アクセス権がないページの存在自体を知らせない目的を兼ねて `404 Not Found` で処理するサービスもGithubなど一般的に存在するため、それに倣う形にしました。）
 
-**コールバッククラス**  
+### コールバッククラス 
 カード、カラムなどモデルのコールバックでログを出力しています。コールバックに関する処理をモデルから分離するため、それぞれのモデルから `app/callbacks` 以下のクラスに処理を委譲しました。
 
-**decoratorとhelperの使い分け**  
+### decoratorとhelperの使い分け
 ビューの表示に関するロジックについては、個別のモデルに依存するものはdecoratorに、個別のモデルに依存しないもの（共通のflashメッセージにあてるcssクラス生成など）はhelperに記述しました。
 
-**定数の記述場所**  
+### 定数の記述場所
 モデル全体に関する定数はモデルの <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/app/models/application_record.rb">ApplicationRecord</a> に、個々のモデルに関する定数はそのモデルに記述しています。  
 アプリケーション全体に関する定数は <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/config/initializers/constants.rb">`config/initializers/constants.rb`</a> に記述しています。
 
-**バリデーション**  
+### バリデーション
 モデル共通で使用するカスタムバリデータは、`app/validators` 以下に置いています。  
 各モデル固有のカスタムバリデーションメソッドは、各モデル内に実装しています。
 
-**定期処理**  
-Heroku Schedulerアドオンを使用しました。カードの期日に関するログを出力するため、1日1回毎日00:00(JST)にRakeタスク <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/lib/tasks/log_due_date.rake">log::due_date</a> を実行してログを出力します。
+### 定期処理
+Heroku Schedulerアドオンを使用しました。カードの期日に関するログを出力するため、1日1回毎日00:00(JST)にRakeタスク <a href="https://github.com/katanoZ/project_cards_tasks/blob/develop/lib/tasks/log_due_date.rake">log:due_date</a> を実行してログを出力します。
 
 ## 設計についての参考文献
 コードの設計については、主に以下の書籍2冊を参考にしました。  
