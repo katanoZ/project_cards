@@ -96,3 +96,5 @@ RSpec.configure do |config|
 end
 
 Dir[Rails.root.join('spec/concerns/**/*.rb')].each { |f| require f }
+
+OmniAuth.config.test_mode = true
