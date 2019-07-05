@@ -11,6 +11,6 @@ module LoginHelper
     Rails.application.env_config['omniauth.auth'] =
       OmniAuth.config.mock_auth[provider.to_sym]
 
-    get "/auth/#{provider}/callback"
+    get '/auth/:provider/callback', params: { provider: provider }
   end
 end

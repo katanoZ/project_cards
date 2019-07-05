@@ -350,7 +350,7 @@ RSpec.describe Myprojects::ProjectsController, type: :request do
 
         it 'プロジェクトが削除されること' do
           expect { delete myproject_path(project) }
-            .to change { Project.count }.by(-1)
+            .to change { Project.count }.from(1).to(0)
         end
 
         it '全プロジェクト一覧画面にリダイレクトすること' do
