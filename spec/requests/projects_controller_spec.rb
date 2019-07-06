@@ -33,6 +33,7 @@ RSpec.describe ProjectsController, type: :request do
 
         # 「もっと見る」ボタン（remote: true）押下
         context 'javascriptリクエストの場合' do
+          let(:params) { { page: 2 } }
           before do
             1.upto(10) do |n|
               create(:project, name: "テストプロジェクト#{n}", owner: user)
@@ -40,18 +41,18 @@ RSpec.describe ProjectsController, type: :request do
           end
 
           it 'リクエストが成功すること' do
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.status).to eq 200
           end
 
           it 'javascript形式のレスポンスを返すこと' do
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.content_type).to eq 'text/javascript'
           end
 
           it 'プロジェクト名が表示されること' do
             # 1ページ目[10, 9, 8, 7, 6, 5, 4, 3, 2] 2ページ目[1]
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.body).to include 'テストプロジェクト1'
           end
         end
@@ -82,23 +83,24 @@ RSpec.describe ProjectsController, type: :request do
 
         # 「もっと見る」ボタン（remote: true）押下
         context 'javascriptリクエストの場合' do
+          let(:params) { { page: 2 } }
           before do
             1.upto(10) { |n| create(:project, name: "テストプロジェクト#{n}") }
           end
 
           it 'リクエストが成功すること' do
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.status).to eq 200
           end
 
           it 'javascript形式のレスポンスを返すこと' do
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.content_type).to eq 'text/javascript'
           end
 
           it 'プロジェクト名が表示されること' do
             # 1ページ目[10, 9, 8, 7, 6, 5, 4, 3, 2] 2ページ目[1]
-            get projects_path << '?page=2', xhr: true
+            get projects_path, params: params, xhr: true
             expect(response.body).to include 'テストプロジェクト1'
           end
         end
