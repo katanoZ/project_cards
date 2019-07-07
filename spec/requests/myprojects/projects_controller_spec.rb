@@ -74,7 +74,6 @@ RSpec.describe Myprojects::ProjectsController, type: :request do
             expect(response.content_type).to eq 'text/html'
           end
 
-
           it 'プロジェクト名が表示されないこと' do
             get myprojects_path
             expect(response.body).not_to include 'テストプロジェクト'
