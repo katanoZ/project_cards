@@ -72,7 +72,7 @@ RSpec.describe ColumnsController, type: :request do
             expect(response.status).to eq 200
           end
 
-          it 'プロジェクトが登録されないこと' do
+          it 'カラムが登録されないこと' do
             expect do
               post project_columns_path(project), params: invalid_params
             end.not_to(change { Column.count })
@@ -258,7 +258,7 @@ RSpec.describe ColumnsController, type: :request do
           expect(response.status).to eq 302
         end
 
-        it 'プロジェクトが削除されること' do
+        it 'カラムが削除されること' do
           expect { delete project_column_path(project, column) }
             .to change { Column.count }.from(1).to(0)
         end
@@ -311,7 +311,7 @@ RSpec.describe ColumnsController, type: :request do
 
           it 'カラムが1つ前に移動すること' do
             expect { get previous_project_column_path(project, column) }
-              .to change { Column.find(column.id).position }.by(-1)
+              .to change { column.reload.position }.by(-1)
           end
 
           it 'プロジェクト詳細画面にリダイレクトすること' do
@@ -330,7 +330,7 @@ RSpec.describe ColumnsController, type: :request do
 
           it 'カラムが移動しないこと' do
             expect { get previous_project_column_path(project, column) }
-              .not_to(change { Column.find(column.id).position })
+              .not_to(change { column.reload.position })
           end
 
           it 'プロジェクト詳細画面にリダイレクトすること' do
@@ -384,7 +384,7 @@ RSpec.describe ColumnsController, type: :request do
 
           it 'カラムが1つ後ろに移動すること' do
             expect { get next_project_column_path(project, column) }
-              .to change { Column.find(column.id).position }.by(1)
+              .to change { column.reload.position }.by(1)
           end
 
           it 'プロジェクト詳細画面にリダイレクトすること' do
@@ -403,7 +403,7 @@ RSpec.describe ColumnsController, type: :request do
 
           it 'カラムが移動しないこと' do
             expect { get next_project_column_path(project, column) }
-              .not_to(change { Column.find(column.id).position })
+              .not_to(change { column.reload.position })
           end
 
           it 'プロジェクト詳細画面にリダイレクトすること' do
