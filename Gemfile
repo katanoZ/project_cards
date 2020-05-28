@@ -101,7 +101,7 @@ gem 'omniauth-github'
 
 # paginator
 # kaminari現行バージョンでpaddingの引数マイナス値が使えないため、使えるバージョンを指定
-gem 'kaminari', '0.17.0'
+gem 'kaminari', '1.2.1'
 
 # create fake data（production stagingでもseeds.rbで使用）
 gem 'faker'
